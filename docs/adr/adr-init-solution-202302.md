@@ -4,6 +4,13 @@
 
 What technical solution for end-2-end (e2e) testing to start with and which technical stack?
 
+## Requirements
+
+* Tests can be run from the command line, with no link to an external service (no SaaS)
+* Test reports can be generated in HTML format
+* Language must respect HobbyFarm technical stack: TypeScript, Go
+* (Optional) Pipelines for code lifecycle & test execution are easy to make
+
 ## Considered Options
 
 * **Tools**

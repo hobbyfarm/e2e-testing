@@ -1,21 +1,15 @@
-# purpose: Continuous Integration (build, unit test, lint, scan)
+# purpose: execute every night the test suite on a given environment
 
-name: CI
+name: Nightly
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  schedule:
+    - cron:  '0 3 * * *'
   workflow_dispatch: {}
 
-concurrency:
-  group: "ci"
-  cancel-in-progress: true
-
 jobs:
-  build:
-    name: Build
+  test:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -32,7 +26,13 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-      - name: Install NPM packages
-        run: npm ci
-
-      # TODO: lint, sonar, tests
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npx playwright test
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
