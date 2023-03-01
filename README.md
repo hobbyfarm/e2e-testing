@@ -15,7 +15,7 @@ The technical solution is based on [Playwright](https://playwright.dev). The fol
 npm install
 ```
 
-Inside the directory, you can run several commands:
+Once it is completed, you can run several commands:
 
 ```bash
 # runs the end-to-end tests
