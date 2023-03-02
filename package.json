@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/devpro/hobbyfarm-e2e-testing#readme",
   "devDependencies": {
-    "@playwright/test": "^1.31.1"
+    "@playwright/test": "^1.31.1",
+    "dotenv": "^16.0.3"
+  },
+  "dependencies": {
   }
 }

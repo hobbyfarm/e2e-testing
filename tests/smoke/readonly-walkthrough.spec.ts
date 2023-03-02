@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-test('HobbyFarm walkthrough readonly smoke test', async ({ page }) => {
-  await page.goto('http://localhost:4200/');
+test('HobbyFarm Admin UI walkthrough readonly smoke test', async ({ page }) => {
+  await page.goto(process.env.HOBBYFARM_ADMIN_UI_URL as string);
+  await expect(page).toHaveURL(`${process.env.HOBBYFARM_ADMIN_UI_URL}/login`);
   await page.getByPlaceholder('Email Address').fill('admin');
   await page.getByPlaceholder('Password').fill('admin');
   await page.getByRole('button', { name: 'LOGIN' }).click();

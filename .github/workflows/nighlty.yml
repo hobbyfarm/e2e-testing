@@ -26,10 +26,16 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Install NPM packages
+        run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test --trace on
+        env:
+          HOBBYFARM_ADMIN_UI_URL: https://someurl
+          HOBBYFARM_UI_URL: https://someurl
+          HOBBYFARM_GARGANTUA_URL: https://someurl
       - uses: actions/upload-artifact@v3
         if: always()
         with:

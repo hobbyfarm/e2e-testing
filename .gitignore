@@ -107,3 +107,6 @@ dist
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# Local configuration files
+.env

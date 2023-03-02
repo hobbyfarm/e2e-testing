@@ -15,7 +15,9 @@ The technical solution is based on [Playwright](https://playwright.dev). The fol
 npm install
 ```
 
-Once it is completed, you can run several commands:
+Environment variables needs to be set to target a specific environment. Locally, you can copy `.env.example` to create and edit `.env` file that will be used to configure the tests (thanks to [dotenv](https://github.com/motdotla/dotenv)).
+
+Once the setup and configuration is completed, you can run several commands:
 
 ```bash
 # runs the end-to-end tests
@@ -33,16 +35,12 @@ npx playwright test --debug
 # opens last HTML report run
 npx playwright show-report
 
-# auto generate tests with Codegen
+# auto generate tests with Codegen (see https://playwright.dev/docs/codegen for options)
 npx playwright codegen
 ```
 
-Check out the following files:
+You can now start editing the test files in `tests` folder. You can look at existing test files or files in `samples` folder. 
 
-- `.\tests\example.spec.ts` (example end-to-end test)
-- `.\samples\demo-todo-app.spec.ts` (demo Todo App end-to-end tests)
-- `.\playwright.config.ts` (Playwright Test configuration)
-
-Visit the [documentation](https://playwright.dev/docs/intro) to get started with writting tests.
+To go further in understanding this solution you can have a look at `.\playwright.config.ts` (Playwright Test configuration) and look at [documentation](https://playwright.dev/docs/intro).
 
 If you use Visual Studio Code, you can install the [Playwright Test for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright) extension ([repository](https://github.com/microsoft/playwright-vscode)).
