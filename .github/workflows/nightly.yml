@@ -34,6 +34,8 @@ jobs:
         run: npx playwright test --trace on
         env:
           HOBBYFARM_ADMIN_UI_URL: https://someurl
+          HOBBYFARM_ADMIN_UI_USR: admin
+          HOBBYFARM_ADMIN_UI_PWD: admin
           HOBBYFARM_UI_URL: https://someurl
           HOBBYFARM_GARGANTUA_URL: https://someurl
       - uses: actions/upload-artifact@v3

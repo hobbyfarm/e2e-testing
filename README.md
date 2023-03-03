@@ -4,7 +4,7 @@ Automated testing solution to validate an instance of [HobbyFarm](https://github
 
 ## Current state
 
-This repository has been created in February 2023 and is under contruction. The design is being documented in this [ADR (Architecture Decision Record)](docs/adr/adr-init-solution-202302.md).
+This repository has been created in February 2023 and is under development. The design is being documented in this [ADR (Architecture Decision Record)](docs/adr/adr-init-solution-202302.md).
 
 ## How to contribute
 
@@ -20,17 +20,8 @@ Environment variables needs to be set to target a specific environment. Locally,
 Once the setup and configuration is completed, you can run several commands:
 
 ```bash
-# runs the end-to-end tests
+# runs the end-to-end tests (see https://playwright.dev/docs/running-tests)
 npx playwright test
-
-# runs the tests only on Desktop Chrome
-npx playwright test --project=chromium
-
-# runs the tests in a specific file
-npx playwright test example
-
-# runs the tests in debug mode
-npx playwright test --debug
 
 # opens last HTML report run
 npx playwright show-report
@@ -39,8 +30,8 @@ npx playwright show-report
 npx playwright codegen
 ```
 
-You can now start editing the test files in `tests` folder. You can look at existing test files or files in `samples` folder. 
+You can start editing the files in `tests` folder and look at examples in `samples` folder. For UI testing, the PageObject pattern has been implemented and code is found in `src/pages`.
 
-To go further in understanding this solution you can have a look at `.\playwright.config.ts` (Playwright Test configuration) and look at [documentation](https://playwright.dev/docs/intro).
+To go further you can have a look at `.\playwright.config.ts` (Playwright Test configuration) and look at the [documentation](https://playwright.dev/docs/intro).
 
 If you use Visual Studio Code, you can install the [Playwright Test for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright) extension ([repository](https://github.com/microsoft/playwright-vscode)).
