@@ -1,8 +1,9 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage as AdminUILoginPage } from '../../src/pages/admin-ui/index';
-import { LoginPage as UILoginPage } from '../../src/pages/ui/login.page';
+import { test } from '@playwright/test';
+import { LoginPage as AdminUILoginPage } from '../../src/pages/admin-ui';
+import { LoginPage as UILoginPage } from '../../src/pages/ui';
+import { AuthResource } from '../../src/resources/gargantua';
 
-test('HobbyFarm Admin UI walkthrough readonly smoke test', async ({ page }) => {
+test('Admin UI walkthrough readonly smoke test', async ({ page }) => {
   let loginPage = new AdminUILoginPage(page);
   await loginPage.goto(process.env.HOBBYFARM_ADMIN_UI_URL as string);
   let homePage = await loginPage.fillCredentialsAndSubmit(process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
@@ -19,7 +20,7 @@ test('HobbyFarm Admin UI walkthrough readonly smoke test', async ({ page }) => {
   loginPage = await configurationPage.logout();
 });
 
-test('HobbyFarm UI walkthrough readonly smoke test', async ({ page }) => {
+test('UI walkthrough readonly smoke test', async ({ page }) => {
   let loginPage = new UILoginPage(page);
   await loginPage.goto(process.env.HOBBYFARM_UI_URL as string);
   let homePage = await loginPage.fillCredentialsAndSubmit(process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
@@ -27,4 +28,9 @@ test('HobbyFarm UI walkthrough readonly smoke test', async ({ page }) => {
   await homePage.displayLogoutModal();
   await homePage.openHomePage();
   loginPage = await homePage.logout();
+});
+
+test('Gargantua walkthrough readonly smoke test', async ({ request }) => {
+  let authResource = new AuthResource(request, process.env.HOBBYFARM_GARGANTUA_URL as string);
+  await authResource.login(process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
 });
