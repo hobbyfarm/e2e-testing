@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { BasePage } from './index';
+import { BasePage } from '.';
 
 export class DashboardPage extends BasePage {
   constructor(page: Page, username: string) {

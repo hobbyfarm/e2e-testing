@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { BasePage } from './base.page';
+import { BasePage } from '.';
 
 export class ConfigurationPage extends BasePage {
   private readonly environmentMenuLink: Locator;
