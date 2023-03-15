@@ -1,4 +1,4 @@
-# purpose: Continuous Integration (build, unit test, lint, scan)
+# purpose: run Continuous Integration (build, unit test, lint, scan)
 
 name: CI
 
