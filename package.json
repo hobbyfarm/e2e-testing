@@ -1,0 +1,27 @@
+{
+  "name": "e2e-testing",
+  "version": "1.0.0",
+  "description": "Automated testing solution to validate an instance of [HobbyFarm](https://github.com/hobbyfarm) (API + web app), the Cloud Native e-learning tool.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devpro/hobbyfarm-e2e-testing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devpro/hobbyfarm-e2e-testing/issues"
+  },
+  "homepage": "https://github.com/devpro/hobbyfarm-e2e-testing#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.31.1",
+    "dotenv": "^16.0.3"
+  },
+  "dependencies": {
+  }
+}

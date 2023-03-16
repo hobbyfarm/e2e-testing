@@ -1,0 +1,38 @@
+# purpose: run Continuous Integration (build, unit test, lint, scan)
+
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: {}
+
+concurrency:
+  group: "ci"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install Node.js (LTS)
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Setup NPM cache cache
+        id: cache-nodemodules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Install NPM packages
+        run: npm ci
+
+      # TODO: lint, sonar, tests
