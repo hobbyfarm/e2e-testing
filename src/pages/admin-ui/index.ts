@@ -6,5 +6,5 @@ export * from './home.page';
 export * from './login.page';
 export * from './scheduled-event.page';
 export * from './user.page';
-export * from './scenarios.page'
-export * from './courses.page'
+export * from './scenario.page'
+export * from './course.page'
