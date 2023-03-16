@@ -13,6 +13,9 @@ export class CoursePage {
   readonly newCoursePauseDuration: Locator;
   readonly newCoursePauseable: Locator;
   readonly newCourseKeepVM: Locator;
+  readonly selectCourse: Locator;
+  readonly deleteCourseButton: Locator;
+  readonly deleteConfirm: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -25,6 +28,9 @@ export class CoursePage {
     this.newCourseKeepVM = page.getByText('Keep VM');
     this.saveButtonLink = page.getByRole('button', { name: 'Save' });
     this.cancelButtonLink = page.getByRole('button', { name: 'Cancel' });
+    this.selectCourse = page.getByRole('gridcell', { name: 'Select' }).getByRole('radio');
+    this.deleteCourseButton = page.getByRole('button', { name: 'Delete' });
+    this.deleteConfirm = page.getByRole('dialog', { name: 'Delete Confirmation' }).getByRole('button', { name: 'Delete' });
   }
 
   async goto(url: string) {
@@ -45,5 +51,11 @@ export class CoursePage {
     await this.newCourseKeepVM.click();
     await this.saveButtonLink.click();
     return new ContentManagementPage(this.page, name);
+  }
+
+  async deleteCourse() {
+    await this.selectCourse.dispatchEvent('click');
+    await this.deleteCourseButton.dispatchEvent('click');
+    await this.deleteConfirm.dispatchEvent('click');
   }
 }

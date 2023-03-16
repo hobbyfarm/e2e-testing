@@ -24,7 +24,7 @@ export class ScenarioPage {
   }
 
   async goto(url: string) {
-    await this.page.goto(`${url}/content/courses`);
+    await this.page.goto(`${url}/content/scenarios`);
     await expect(this.page).toHaveURL(`${url}/content/scenarios`);
   }
 

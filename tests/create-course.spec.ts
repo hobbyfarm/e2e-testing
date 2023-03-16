@@ -11,5 +11,6 @@ test('create new course', async ({ page }) => {
     await coursePage.goto(process.env.HOBBYFARM_ADMIN_UI_URL as string);
     await coursePage.openNewCourseModal();
     let newCourseModal = await coursePage.fillCourseModal('testname' as string, 'testdescription' as string, '15' as string, '2' as string);
+    await coursePage.deleteCourse();
     loginPage = await homePage.logout();
 });
