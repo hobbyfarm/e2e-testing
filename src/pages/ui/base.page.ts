@@ -12,11 +12,13 @@ export class BasePage {
   private readonly cancelButton: Locator;
   private readonly logoutButton: Locator;
   private readonly username: string;
+  private readonly uiName: string;
 
-  constructor(page: Page, username: string) {
+  constructor(page: Page, uiName: string, username: string) {
     this.page = page;
+    this.uiName = uiName;
     this.username = username;
-    this.homeMenuLink = page.getByRole('link', { name: 'Rancher HobbyFarm' });
+    this.homeMenuLink = page.getByRole('link', { name: uiName });
     this.userMenuLink = page.getByRole('link', { name: 'Users' });
     this.profileMenuLink = page.getByRole('button', { name: username });
     this.aboutModalLink = page.getByRole('menuitem', { name: 'About' });
@@ -28,7 +30,7 @@ export class BasePage {
 
   async openHomePage(): Promise<HomePage> {
     await this.homeMenuLink.click();
-    return new HomePage(this.page, this.username);
+    return new HomePage(this.page, this.uiName, this.username);
   }
 
   async openUserPage(): Promise<UserPage> {
