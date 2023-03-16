@@ -1,12 +1,12 @@
-import { expect, Locator, Page } from '@playwright/test';
-import { ContentManagementPage } from '.';
+import { Locator, Page } from '@playwright/test';
+import { BasePage, ContentManagementPage } from '.';
 
-export class CoursePage {
+export class CoursePage extends ContentManagementPage {
   readonly page: Page;
   readonly newCourseButton: Locator;
   readonly saveButtonLink: Locator;
   readonly cancelButtonLink: Locator;
-  
+  readonly courseLink: Locator;
   readonly newCourseName: Locator;
   readonly newCourseDescription: Locator;
   readonly newCourseKeepaliveDuration: Locator;
@@ -17,8 +17,10 @@ export class CoursePage {
   readonly deleteCourseButton: Locator;
   readonly deleteConfirm: Locator;
 
-  constructor(page: Page) {
+  constructor(page: Page, username: string) {
+    super(page, username);
     this.page = page;
+    this.courseLink = page.getByRole('link', { name: 'Courses' });
     this.newCourseButton = page.getByRole('button', { name: 'New Course' });
     this.newCourseName = page.getByRole('textbox', { name: 'Name' });
     this.newCourseDescription = page.getByRole('textbox', { name: 'Description' });
@@ -33,16 +35,9 @@ export class CoursePage {
     this.deleteConfirm = page.getByRole('dialog', { name: 'Delete Confirmation' }).getByRole('button', { name: 'Delete' });
   }
 
-  async goto(url: string) {
-    await this.page.goto(`${url}/content/courses`);
-    await expect(this.page).toHaveURL(`${url}/content/courses`);
-  }
-
-  async openNewCourseModal() {
-    await this.newCourseButton.click();
-  }
-
-  async fillCourseModal(name: string, description: string, keepaliveduration: string, pauseduration: string): Promise<ContentManagementPage> {
+  async openNewCourseModalAndSave(name: string, description: string, keepaliveduration: string, pauseduration: string): Promise<ContentManagementPage> {
+    await this.courseLink.click();
+    let coursePage = new CoursePage(this.page, name);
     await this.newCourseName.fill(name);
     await this.newCourseDescription.fill(description);
     await this.newCourseKeepaliveDuration.fill(keepaliveduration);
@@ -50,7 +45,7 @@ export class CoursePage {
     await this.newCoursePauseable.click();
     await this.newCourseKeepVM.click();
     await this.saveButtonLink.click();
-    return new ContentManagementPage(this.page, name);
+    return await coursePage.openNewCourseModalAndSave(name, description, keepaliveduration, pauseduration);
   }
 
   async deleteCourse() {

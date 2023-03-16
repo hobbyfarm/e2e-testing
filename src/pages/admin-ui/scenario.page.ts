@@ -1,19 +1,22 @@
-import { expect, Locator, Page } from '@playwright/test';
-import { ContentManagementPage } from '.';
+import { Locator, Page } from '@playwright/test';
+import { BasePage, ContentManagementPage } from '.';
 
-export class ScenarioPage {
+export class ScenarioPage extends ContentManagementPage {
   readonly page: Page;
+  readonly scenarioName: string;
   readonly newScenarioButton: Locator;
   readonly saveButtonLink: Locator;
   readonly cancelButtonLink: Locator;
-
+  readonly scenarioLink: Locator;
   readonly newScenarioName: Locator;
   readonly newScenarioDescription: Locator;
   readonly newScenarioKeepaliveDuration: Locator;
   readonly newScenarioPauseDuration: Locator;
-  
-  constructor(page: Page) {
+
+  constructor(page: Page, username: string) {
+    super(page, username);
     this.page = page;
+    this.scenarioLink = page.getByRole('link', { name: 'Scenarios' });
     this.newScenarioButton = page.getByRole('button', { name: 'New Scenario' });
     this.newScenarioName = page.getByRole('textbox', { name: 'Name' });
     this.newScenarioDescription = page.getByRole('textbox', { name: 'Description' });
@@ -23,21 +26,14 @@ export class ScenarioPage {
     this.cancelButtonLink = page.getByRole('button', { name: 'Cancel' });
   }
 
-  async goto(url: string) {
-    await this.page.goto(`${url}/content/scenarios`);
-    await expect(this.page).toHaveURL(`${url}/content/scenarios`);
-  }
-
-  async openNewScenarioModal() {
-    await this.newScenarioButton.click();
-  }
-
-  async fillScenarioModal(name: string, description: string, keepaliveduration: string, pauseduration: string): Promise<ContentManagementPage> {
-    await this.newScenarioName.fill(name);
+  async openNewScenarioModalAndSave(scenarioName: string, description: string, keepaliveduration: string, pauseduration: string): Promise<ContentManagementPage> {
+    await this.scenarioLink.click();
+    let scenarioLink = new ScenarioPage(this.page, scenarioName);
+    await this.newScenarioName.fill(scenarioName);
     await this.newScenarioDescription.fill(description);
     await this.newScenarioKeepaliveDuration.fill(keepaliveduration);
     await this.newScenarioPauseDuration.fill(pauseduration);
     await this.saveButtonLink.click();
-    return new ContentManagementPage(this.page, name);
+    return await scenarioLink.openNewScenarioModalAndSave(scenarioName, description, keepaliveduration, pauseduration);
   }
 }
