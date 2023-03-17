@@ -14,11 +14,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Install Node.js (LTS)
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: Setup NPM cache cache
+      - name: Setup NPM cache
         id: cache-nodemodules
         uses: actions/cache@v3
         env:
@@ -27,20 +27,26 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install NPM packages
-        run: npm ci
+        run: npm install
+      - name: Lint codebase
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: true
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Run Playwright tests
+      - name: Run Playwright tests against Staging environment
         run: npx playwright test --trace on
         env:
-          HOBBYFARM_ADMIN_UI_URL: https://someurl
-          HOBBYFARM_ADMIN_UI_USR: admin
-          HOBBYFARM_ADMIN_UI_PWD: admin
-          HOBBYFARM_UI_URL: https://someurl
-          HOBBYFARM_GARGANTUA_URL: https://someurl
+          HOBBYFARM_ADMIN_UI_URL: ${{ secrets.STAGING_ADMIN_UI_URL }}
+          HOBBYFARM_ADMIN_UI_USR: ${{ secrets.STAGING_ADMIN_UI_USR }}
+          HOBBYFARM_ADMIN_UI_PWD: ${{ secrets.STAGING_ADMIN_UI_PWD }}
+          HOBBYFARM_UI_HEADER_TITLE: ${{ vars.STAGING_UI_HEADER_TITLE }}
+          HOBBYFARM_UI_URL: ${{ secrets.STAGING_UI_URL }}
+          HOBBYFARM_GARGANTUA_URL: ${{ secrets.STAGING_GARGANTUA_URL }}
       - uses: actions/upload-artifact@v3
         if: always()
         with:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+      # TODO: publich tests as NPM package (GitHub registry)
