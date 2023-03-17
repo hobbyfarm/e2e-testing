@@ -20,11 +20,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Install Node.js (LTS)
+        with:
+          # full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: Setup NPM cache cache
+      - name: Setup NPM cache
         id: cache-nodemodules
         uses: actions/cache@v3
         env:
@@ -33,6 +36,11 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install NPM packages
-        run: npm ci
-
-      # TODO: lint, sonar, tests
+        run: npm install
+      - name: Lint codebase
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # TODO: sonar, tests
