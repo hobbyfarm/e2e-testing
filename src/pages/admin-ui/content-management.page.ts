@@ -7,13 +7,13 @@ export class ContentManagementPage extends BasePage {
     super(page, username);
   }
 
-  async openNewCourseModalAndSave(courseName: string, description: string, keepaliveduration: string, pauseduration: string): Promise<ContentManagementPage> {
+  async openNewCourseModalAndSaveAndDelete(courseName: string, description: string, keepaliveduration: string, pauseduration: string): Promise<ContentManagementPage> {
     let coursePage = new CoursePage(this.page, courseName);
     await coursePage.openNewCourseForm();
     await coursePage.fillNewCourseForm(courseName, description, keepaliveduration, pauseduration);
     await coursePage.saveNewCourseForm();
     await coursePage.deleteCourse();
-    return await this.openNewCourseModalAndSave(courseName, description, keepaliveduration, pauseduration);
+    return await this.openNewCourseModalAndSaveAndDelete(courseName, description, keepaliveduration, pauseduration);
   }
 
   async openNewScenarioModalAndSave(scenarioName: string, description: string, keepaliveduration: string, pauseduration: string): Promise<ContentManagementPage> {
