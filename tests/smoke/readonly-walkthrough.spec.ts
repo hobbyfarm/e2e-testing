@@ -23,7 +23,7 @@ test('Admin UI walkthrough readonly smoke test', async ({ page }) => {
 test('UI walkthrough readonly smoke test', async ({ page }) => {
   let loginPage = new UILoginPage(page);
   await loginPage.goto(process.env.HOBBYFARM_UI_URL as string);
-  let homePage = await loginPage.fillCredentialsAndSubmit(process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
+  let homePage = await loginPage.fillCredentialsAndSubmit(process.env.HOBBYFARM_UI_HEADER_TITLE as string, process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
   await homePage.displayAboutModal();
   await homePage.displayLogoutModal();
   await homePage.openHomePage();
