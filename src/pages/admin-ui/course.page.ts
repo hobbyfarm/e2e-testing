@@ -20,7 +20,6 @@ export class CoursePage {
   constructor(page: Page, username: string) {
     this.page = page;
     this.courseLink = page.getByRole('link', { name: 'Courses' });
-    this.courseLink = page.getByRole('link', { name: 'Courses' });
     this.newCourseButton = page.getByRole('button', { name: 'New Course' });
     this.newCourseName = page.getByRole('textbox', { name: 'Name' });
     this.newCourseDescription = page.getByRole('textbox', { name: 'Description' });
