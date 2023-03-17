@@ -16,6 +16,7 @@ export class ScenarioPage {
   constructor(page: Page, username: string) {
     this.page = page;
     this.scenarioLink = page.getByRole('link', { name: 'Scenarios' });
+    this.scenarioLink = page.getByRole('link', { name: 'Scenarios' });
     this.newScenarioButton = page.getByRole('button', { name: 'New Scenario' });
     this.newScenarioName = page.getByRole('textbox', { name: 'Name' });
     this.newScenarioDescription = page.getByRole('textbox', { name: 'Description' });

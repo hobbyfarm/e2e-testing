@@ -9,3 +9,4 @@ test('create new course', async ({ page }) => {
     let coursePage = await contentManagementPage.openNewCourseModalAndSave('testname' as string, 'testdescription' as string, '15' as string, '2' as string);
     loginPage = await homePage.logout();
 });
+
