@@ -2,7 +2,7 @@ import { Locator, Page } from '@playwright/test';
 import { ConfigurationPage, ContentManagementPage, DashboardPage, HomePage, LoginPage, ScheduledEventPage, UserPage } from '.';
 
 export class BasePage {
-  readonly page: Page;
+  protected readonly page: Page;
   private readonly homeMenuLink: Locator;
   private readonly dashboardMenuLink: Locator;
   private readonly scheduledEventMenuLink: Locator;
