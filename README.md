@@ -1,4 +1,4 @@
-# End-2-end testing solution for HobbyFarm
+# End-to-end testing solution for HobbyFarm
 
 Automated testing solution to validate an instance of [HobbyFarm](https://github.com/hobbyfarm) (API + web app), the Cloud Native e-learning tool.
 

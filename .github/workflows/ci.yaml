@@ -1,4 +1,6 @@
 # purpose: run Continuous Integration (build, unit test, lint, scan)
+# uses:
+#   - https://github.com/github/super-linter
 
 name: CI
 
@@ -38,9 +40,11 @@ jobs:
       - name: Install NPM packages
         run: npm install
       - name: Lint codebase
-        uses: github/super-linter@v4
+        uses: github/super-linter@v4.10.1
         env:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # hack: enable when https://github.com/github/super-linter/issues/3965 is fixed
+          VALIDATE_GITHUB_ACTIONS: false
       # TODO: sonar, tests
