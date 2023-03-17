@@ -35,7 +35,7 @@ export class BasePage {
 
   async openUserPage(): Promise<UserPage> {
     await this.userMenuLink.click();
-    return new UserPage(this.page, this.username);
+    return new UserPage(this.page, this.headerTitle, this.username);
   }
 
   async displayAboutModal() {
