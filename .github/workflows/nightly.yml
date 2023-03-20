@@ -1,4 +1,6 @@
 # purpose: execute every night the test suite on a given environment
+# uses:
+#   - https://github.com/github/super-linter
 
 name: Nightly
 
