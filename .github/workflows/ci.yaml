@@ -48,6 +48,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # hack: enable when https://github.com/github/super-linter/issues/3965 is fixed
           VALIDATE_GITHUB_ACTIONS: false
+          KUBERNETES_KUBEVAL_FILTER_REGEX_EXCLUDE: (\.github\/workflows)
       # TODO: sonar, tests
       - name: Install k3d
         run: curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
