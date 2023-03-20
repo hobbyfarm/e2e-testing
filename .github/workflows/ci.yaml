@@ -59,10 +59,14 @@ jobs:
           kubectl cluster-info
       - name: Install HobbyFarm in the local cluster
         run: |
+          echo "Adding entries in /etc/hosts file"
           sudo echo "127.0.0.1 admin.hf.local api.hf.local shell.hf.local learn.hf.local" | sudo tee -a /etc/hosts
+          echo "Installing cert-manager in local k3d cluster"
           kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.10.1/cert-manager.crds.yaml
           helm repo add jetstack https://charts.jetstack.io
           helm install cert-manager jetstack/cert-manager --create-namespace --version v1.10.1 --namespace cert-manager
+          kubectl rollout status deployment cert-manager -n cert-manager
+          echo "Creating self-signed cluster certificate issuer"
           cat <<EOF | kubectl apply -f -
           apiVersion: cert-manager.io/v1
           kind: ClusterIssuer
@@ -71,6 +75,7 @@ jobs:
           spec:
             selfSigned: {}
           EOF
+          echo "Installing hobbyfarm in local k3d cluster"
           helm repo add hobbyfarm https://hobbyfarm.github.io/hobbyfarm
           helm install hobbyfarm hobbyfarm/hobbyfarm --create-namespace \
             --set hobbyfarm.ingress.annotations.'cert-manager\.io/cluster-issuer'=selfsigned-cluster-issuer \
@@ -86,9 +91,11 @@ jobs:
             --set ingress.hostnames.ui=learn.hf.local \
             --set terraform.enabled=false \
             --namespace hobbyfarm-ci
+          kubectl rollout status deployment gargantua -n hobbyfarm-ci
           helm upgrade --reuse-values hobbyfarm hobbyfarm/hobbyfarm \
             --set users.admin.enabled=true \
             --namespace hobbyfarm-ci
+          kubectl rollout status deployment gargantua -n hobbyfarm-ci
           curl -k https://admin.hf.local
           curl -k https://learn.hf.local
       - name: Clean-up containers
