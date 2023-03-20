@@ -46,7 +46,7 @@ If you use Visual Studio Code, you can install the [Playwright Test for VSCode](
 
 ## How to check code quality
 
-We use [MegaLinter](https://megalinter.io/) to lint all code from this repository. It will be automatically used in the CI pipeline but you can run it locally:
+We use [MegaLinter](https://megalinter.io/) ([code  ](https://github.com/oxsecurity/megalinter)) to lint all code from this repository. It will be automatically used in the CI pipeline but you can run it locally:
 
 ```bash
 npx mega-linter-runner

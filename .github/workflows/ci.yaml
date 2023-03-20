@@ -1,6 +1,8 @@
 # purpose: run Continuous Integration (build, unit test, lint, scan)
-# uses:
+# actions:
 #   - https://github.com/marketplace/actions/megalinter
+# images:
+#   - https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
 
 name: CI
 
@@ -107,7 +109,7 @@ jobs:
           echo "Checking UI"
           curl -o /dev/null -k -s -w "%{http_code}\n" https://learn.hf.local
         env:
-          HOBBYFARM_ADMIN_UI_HASHPWD: '$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm'
+          HOBBYFARM_ADMIN_UI_HASHPWD: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests against Staging environment
