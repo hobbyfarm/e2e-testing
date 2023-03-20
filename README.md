@@ -32,7 +32,7 @@ npx playwright test
 # opens last HTML report run
 npx playwright show-report
 
-# auto generate tests with Codegen (see https://playwright.dev/docs/codegen for options)
+# opens a browser to help generate tests (see https://playwright.dev/docs/codegen for options)
 npx playwright codegen
 ```
 

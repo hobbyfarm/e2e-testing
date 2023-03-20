@@ -1,12 +1,16 @@
 # Configuration file for MegaLinter
 # See all available variables at https://megalinter.io/configuration/ and in linters documentation
 
-APPLY_FIXES: all # all, none, or list of linter keys
-# ENABLE: # If you use ENABLE variable, all other languages/formats/tooling-formats will be disabled by default
-# ENABLE_LINTERS: # If you use ENABLE_LINTERS variable, all other linters will be disabled by default
-# DISABLE:
-  # - COPYPASTE # Uncomment to disable checks of excessive copy-pastes
-  # - SPELL # Uncomment to disable checks of spelling mistakes
+APPLY_FIXES: list # all, none, or list of linter keys
+DISABLE:
+  # temporary (March 2023)
+  - COPYPASTE
+DISABLE_LINTERS:
+  # temporary fix for https://github.com/oxsecurity/megalinter/issues/1664
+  - REPOSITORY_DEVSKIM
 SHOW_ELAPSED_TIME: true
 FILEIO_REPORTER: false
-# DISABLE_ERRORS: true # Uncomment if you want MegaLinter to detect errors but not block CI to pass
+REPOSITORY_DEVSKIM_ARGUMENTS: ["--ignore-globs", "**/node_modules/**"]
+JSON_JSONLINT_ARGUMENTS: "--comments"
+REPOSITORY_CHECKOV_ARGUMENTS: "--skip-path=.github"
+ACTION_ACTIONLINT_ARGUMENTS: "-ignore SC2086"

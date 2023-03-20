@@ -1,6 +1,6 @@
 # purpose: run Continuous Integration (build, unit test, lint, scan)
 # uses:
-#   - https://github.com/github/super-linter
+#   - https://github.com/marketplace/actions/megalinter
 
 name: CI
 
@@ -45,16 +45,13 @@ jobs:
         # uses: github/super-linter@v4.10.1
         uses: oxsecurity/megalinter@v6
         env:
-          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPOSITORY_DEVSKIM_ARGUMENTS: "--ignore-globs=**/.git/**,**/node_modules/**"
-          JSON_JSONLINT_ARGUMENTS: "--comments"
-          REPOSITORY_CHECKOV_ARGUMENTS: "--skip-path=.github"
           # hack: enable when https://github.com/github/super-linter/issues/3965 is fixed
           # VALIDATE_GITHUB_ACTIONS: false
           # KUBERNETES_KUBEVAL_FILTER_REGEX_EXCLUDE: (\.github\/workflows)
-      # TODO: sonar, tests
+      # TODO: scan code with SonarCloud
       - name: Install k3d
         run: curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
       - name: Create a local Kubernetes cluster with k3d
@@ -122,11 +119,15 @@ jobs:
           HOBBYFARM_UI_HEADER_TITLE: Rancher HobbyFarm
           HOBBYFARM_UI_URL: https://learn.hf.local
           HOBBYFARM_GARGANTUA_URL: https://api.hf.local
-      - uses: actions/upload-artifact@v3
+      - name: Save pipeline artifacts
+        uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: playwright-report
-          path: playwright-report/
+          name: code-quality-reports
+          path: |
+            playwright-report/
+            megalinter-reports/
+            mega-linter.log
           retention-days: 30
       - name: Clean-up containers
         run: |
