@@ -92,6 +92,7 @@ jobs:
             --set terraform.enabled=false \
             --namespace hobbyfarm-ci
           kubectl rollout status deployment gargantua -n hobbyfarm-ci
+          sleep 30
           helm upgrade --reuse-values hobbyfarm hobbyfarm/hobbyfarm \
             --set users.admin.enabled=true \
             --namespace hobbyfarm-ci
