@@ -48,6 +48,9 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY_DEVSKIM_ARGUMENTS: "--ignore-globs=**/.git/**,**/node_modules/**"
+          JSON_JSONLINT_ARGUMENTS: "--comments"
+          REPOSITORY_CHECKOV_ARGUMENTS: "--skip-path=.github"
           # hack: enable when https://github.com/github/super-linter/issues/3965 is fixed
           # VALIDATE_GITHUB_ACTIONS: false
           # KUBERNETES_KUBEVAL_FILTER_REGEX_EXCLUDE: (\.github\/workflows)
@@ -99,13 +102,15 @@ jobs:
           sleep 30
           helm upgrade --reuse-values hobbyfarm hobbyfarm/hobbyfarm \
             --set users.admin.enabled=true \
-            --set users.admin.password='$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm' \
+            --set users.admin.password=$HOBBYFARM_ADMIN_UI_HASHPWD \
             --namespace hobbyfarm-ci
           kubectl rollout status deployment gargantua -n hobbyfarm-ci
           echo "Checking Admin UI"
           curl -o /dev/null -k -s -w "%{http_code}\n" https://admin.hf.local
           echo "Checking UI"
           curl -o /dev/null -k -s -w "%{http_code}\n" https://learn.hf.local
+        env:
+          HOBBYFARM_ADMIN_UI_HASHPWD: '$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm'
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests against Staging environment
