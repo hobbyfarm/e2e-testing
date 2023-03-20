@@ -48,3 +48,7 @@ jobs:
           # hack: enable when https://github.com/github/super-linter/issues/3965 is fixed
           VALIDATE_GITHUB_ACTIONS: false
       # TODO: sonar, tests
+      - name: Install k3d
+        run: wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+      - name: Create local Kubernetes cluster with k3d
+        run: k3d cluster create k3d-local
