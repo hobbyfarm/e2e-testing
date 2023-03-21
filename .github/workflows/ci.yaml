@@ -47,7 +47,7 @@ jobs:
         # uses: github/super-linter@v4.10.1
         uses: oxsecurity/megalinter@v6
         env:
-          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          VALIDATE_ALL_CODEBASE: true # ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # hack: enable when https://github.com/github/super-linter/issues/3965 is fixed
