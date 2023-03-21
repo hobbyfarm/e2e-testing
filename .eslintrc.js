@@ -7,6 +7,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended'
+    // 'plugin:@typescript-eslint/recommended-requiring-type-checking'
   ],
   ignorePatterns: [
     'node_modules/*',
@@ -34,6 +35,14 @@ module.exports = {
     'linebreak-style': [
       'error',
       'unix'
+    ],
+    'no-multiple-empty-lines': [
+      'error',
+      { max: 1 }
+    ],
+    'semi-spacing': [
+      'error',
+      { 'before': false, 'after': true }
     ],
     quotes: [
       'error',

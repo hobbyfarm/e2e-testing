@@ -11,6 +11,7 @@ DISABLE_LINTERS:
   # code scan will be done by Sonar
   - REPOSITORY_TRIVY
   # semi rule cannot be ignored by JavaScript Standard
+  - JAVASCRIPT_STANDARD
   - TYPESCRIPT_STANDARD
 JSON_JSONLINT_ARGUMENTS: "--comments"
 FILEIO_REPORTER: false

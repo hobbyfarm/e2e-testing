@@ -51,3 +51,9 @@ We use [MegaLinter](https://megalinter.io/) ([code](https://github.com/oxsecurit
 ```bash
 npx mega-linter-runner
 ```
+
+You can also run specific linters:
+
+```bash
+npx eslint .
+```
