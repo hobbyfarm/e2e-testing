@@ -10,6 +10,8 @@ DISABLE_LINTERS:
   - REPOSITORY_DEVSKIM
   # code scan will be done by Sonar
   - REPOSITORY_TRIVY
+  # semi rule cannot be ignored by JavaScript Standard
+  - TYPESCRIPT_STANDARD
 JSON_JSONLINT_ARGUMENTS: "--comments"
 FILEIO_REPORTER: false
 REPOSITORY_CHECKOV_ARGUMENTS: "--skip-path=.github"

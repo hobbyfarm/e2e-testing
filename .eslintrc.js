@@ -1,33 +1,33 @@
 module.exports = {
-  'env': {
-    'browser': true,
-    'es2021': true,
-    'node': true
+  env: {
+    browser: true,
+    es2021: true,
+    node: true
   },
-  'extends': [
+  extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended'
   ],
-  'ignorePatterns': [
+  ignorePatterns: [
     'node_modules/*',
     'megalinter-reports/*',
     'playwright-report/*',
-    'test-results/*',
+    'test-results/*'
   ],
-  'overrides': [
+  overrides: [
   ],
-  'parser': '@typescript-eslint/parser',
-  'parserOptions': {
-    'ecmaVersion': 'latest',
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 'latest',
     // 'project': ['./tsconfig.json'],
-    'sourceType': 'module'
+    sourceType: 'module'
   },
-  'plugins': [
+  plugins: [
     '@typescript-eslint'
   ],
-  'root': true,
-  'rules': {
-    'indent': [
+  root: true,
+  rules: {
+    indent: [
       'error',
       2
     ],
@@ -35,11 +35,11 @@ module.exports = {
       'error',
       'unix'
     ],
-    'quotes': [
+    quotes: [
       'error',
       'single'
     ],
-    'semi': [
+    semi: [
       'error',
       'always'
     ]
