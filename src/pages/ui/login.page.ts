@@ -19,10 +19,10 @@ export class LoginPage {
     await expect(this.page).toHaveURL(`${url}/login`);
   }
 
-  async fillCredentialsAndSubmit(emailAddress: string, password: string): Promise<HomePage> {
+  async fillCredentialsAndSubmit(headerTitle: string, emailAddress: string, password: string): Promise<HomePage> {
     await this.emailAddressInput.fill(emailAddress);
     await this.passwordInput.fill(password);
     await this.loginButton.click();
-    return new HomePage(this.page, emailAddress);
+    return new HomePage(this.page, headerTitle, emailAddress);
   }
 }
