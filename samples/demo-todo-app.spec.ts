@@ -4,6 +4,11 @@ test.beforeEach(async ({ page }) => {
   await page.goto('https://demo.playwright.dev/todomvc');
 });
 
+interface Todo {
+  title: string;
+  completed: boolean;
+}
+
 const TODO_ITEMS = [
   'buy some cheese',
   'feed the cat',
@@ -55,8 +60,8 @@ test.describe('New Todo', () => {
     await createDefaultTodos(page);
 
     // create a todo count locator
-    const todoCount = page.getByTestId('todo-count')
-  
+    const todoCount = page.getByTestId('todo-count');
+
     // Check test using different methods.
     await expect(page.getByText('3 items left')).toBeVisible();
     await expect(todoCount).toHaveText('3 items left');
@@ -260,9 +265,9 @@ test.describe('Counter', () => {
   test('should display the current number of todo items', async ({ page }) => {
     // create a new todo locator
     const newTodo = page.getByPlaceholder('What needs to be done?');
-    
+
     // create a todo count locator
-    const todoCount = page.getByTestId('todo-count')
+    const todoCount = page.getByTestId('todo-count');
 
     await newTodo.fill(TODO_ITEMS[0]);
     await newTodo.press('Enter');
@@ -350,7 +355,7 @@ test.describe('Routing', () => {
   });
 
   test('should respect the back button', async ({ page }) => {
-    const todoItem = page.getByTestId('todo-item'); 
+    const todoItem = page.getByTestId('todo-item');
     await page.getByTestId('todo-item').nth(1).getByRole('checkbox').check();
 
     await checkNumberOfCompletedTodosInLocalStorage(page, 1);
@@ -393,7 +398,7 @@ test.describe('Routing', () => {
 
   test('should highlight the currently applied filter', async ({ page }) => {
     await expect(page.getByRole('link', { name: 'All' })).toHaveClass('selected');
-    
+
     //create locators for active and completed links
     const activeLink = page.getByRole('link', { name: 'Active' });
     const completedLink = page.getByRole('link', { name: 'Completed' });
@@ -426,12 +431,12 @@ async function checkNumberOfTodosInLocalStorage(page: Page, expected: number) {
 
 async function checkNumberOfCompletedTodosInLocalStorage(page: Page, expected: number) {
   return await page.waitForFunction(e => {
-    return JSON.parse(localStorage['react-todos']).filter((todo: any) => todo.completed).length === e;
+    return JSON.parse(localStorage['react-todos']).filter((todo: Todo) => todo.completed).length === e;
   }, expected);
 }
 
 async function checkTodosInLocalStorage(page: Page, title: string) {
   return await page.waitForFunction(t => {
-    return JSON.parse(localStorage['react-todos']).map((todo: any) => todo.title).includes(t);
+    return JSON.parse(localStorage['react-todos']).map((todo: Todo) => todo.title).includes(t);
   }, title);
 }

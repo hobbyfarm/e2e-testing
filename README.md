@@ -3,7 +3,7 @@
 [![CI](https://github.com/hobbyfarm/e2e-testing/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/hobbyfarm/e2e-testing/actions/workflows/ci.yaml)
 [![Nightly](https://github.com/hobbyfarm/e2e-testing/actions/workflows/nightly.yml/badge.svg?branch=main)](https://github.com/hobbyfarm/e2e-testing/actions/workflows/nightly.yml)
 
-Automated testing solution to validate an instance of [HobbyFarm](https://github.com/hobbyfarm) (API + web app), the Cloud Native e-learning tool.
+Automated testing solution to validate an instance of [HobbyFarm](https://github.com/hobbyfarm) (API + web app), the Cloud Native e-learning platform!
 
 ## Current state
 
@@ -38,15 +38,15 @@ npx playwright codegen
 
 ## How to contribute
 
-You can start editing the files in `tests` folders and look at examples in `samples` folder. For UI testing, the PageObject pattern has been implemented and code is found in `src/pages`. For REST API testing, code is in `src/resources`.
+You can start editing files in `tests` folders and look at examples in `samples` folder. For UI testing, the PageObject pattern has been followed and code is found in `src/pages`. For REST API testing, code is in `src/resources`.
 
-To go further you can have a look at `.\playwright.config.ts` (Playwright Test configuration) and look at the [documentation](https://playwright.dev/docs/intro).
+To go further you can have a look at `.\playwright.config.ts` (Playwright Test configuration) and [Playwright documentation](https://playwright.dev/docs/intro).
 
-If you use Visual Studio Code, you can install the [Playwright Test for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright) extension ([repository](https://github.com/microsoft/playwright-vscode)).
+If you use Visual Studio Code, you can install the extension [Playwright Test for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright) ([repository](https://github.com/microsoft/playwright-vscode)).
 
 ## How to check code quality
 
-We use [MegaLinter](https://megalinter.io/) ([code  ](https://github.com/oxsecurity/megalinter)) to lint all code from this repository. It will be automatically used in the CI pipeline but you can run it locally:
+We use [MegaLinter](https://megalinter.io/) ([code](https://github.com/oxsecurity/megalinter)) to check all code from this repository. It will be automatically used in the CI pipeline but you can run it locally:
 
 ```bash
 npx mega-linter-runner

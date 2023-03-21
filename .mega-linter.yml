@@ -1,16 +1,15 @@
-# Configuration file for MegaLinter
-# See all available variables at https://megalinter.io/configuration/ and in linters documentation
+# Configuration file for MegaLinter (see https://megalinter.io/configuration/)
 
-APPLY_FIXES: list # all, none, or list of linter keys
+APPLY_FIXES: none
+ACTION_ACTIONLINT_ARGUMENTS: "-ignore SC2086"
 DISABLE:
   # temporary (March 2023)
   - COPYPASTE
 DISABLE_LINTERS:
   # temporary fix for https://github.com/oxsecurity/megalinter/issues/1664
   - REPOSITORY_DEVSKIM
-SHOW_ELAPSED_TIME: true
-FILEIO_REPORTER: false
-REPOSITORY_DEVSKIM_ARGUMENTS: ["--ignore-globs", "**/node_modules/**"]
 JSON_JSONLINT_ARGUMENTS: "--comments"
+FILEIO_REPORTER: false
 REPOSITORY_CHECKOV_ARGUMENTS: "--skip-path=.github"
-ACTION_ACTIONLINT_ARGUMENTS: "-ignore SC2086"
+REPOSITORY_DEVSKIM_ARGUMENTS: ["--ignore-globs", "**/node_modules/**"]
+SHOW_ELAPSED_TIME: true
