@@ -14,7 +14,24 @@
   ],
   "language": "en",
   "noConfigSearch": true,
-  "words": ["codegen", "devskim", "featureset", "godog", "hobbyfarm", "jsonlint", "linebreak", "markdownlint", "megalinter", "msedge", "oxsecurity", "sourcegraph",
-    "taiko", "tebeka", "textbox", "todos", "trivy"],
+  "words": [
+    "codegen",
+    "devskim",
+    "featureset",
+    "godog",
+    "hobbyfarm",
+    "jsonlint",
+    "linebreak",
+    "markdownlint",
+    "megalinter",
+    "msedge",
+    "oxsecurity",
+    "sourcegraph",
+    "taiko",
+    "tebeka",
+    "textbox",
+    "todos",
+    "trivy"
+  ],
   "version": "0.2"
 }
