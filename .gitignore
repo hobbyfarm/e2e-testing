@@ -110,3 +110,6 @@ dist
 
 # Local configuration files
 .env
+
+# MegaLinter file
+megalinter-reports/

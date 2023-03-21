@@ -1,12 +1,16 @@
 # purpose: run Continuous Integration (build, unit test, lint, scan)
+# actions:
+#   - https://github.com/marketplace/actions/megalinter
+# images:
+#   - https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
 
 name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch: {}
 
 concurrency:
@@ -20,11 +24,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Install Node.js (LTS)
+        with:
+          # full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: Setup NPM cache cache
+      - name: Setup NPM cache
         id: cache-nodemodules
         uses: actions/cache@v3
         env:
@@ -33,6 +40,99 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install NPM packages
-        run: npm ci
-
-      # TODO: lint, sonar, tests
+        run: npm install
+      # TODO: add SonarCloud code scan
+      - name: Lint codebase
+        # fix: https://github.com/marketplace/actions/super-linter was too complicated and outdated
+        # uses: github/super-linter@v4.10.1
+        uses: oxsecurity/megalinter@v6
+        env:
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # hack: enable when https://github.com/github/super-linter/issues/3965 is fixed
+          # VALIDATE_GITHUB_ACTIONS: false
+          # KUBERNETES_KUBEVAL_FILTER_REGEX_EXCLUDE: (\.github\/workflows)
+      # TODO: scan code with SonarCloud
+      - name: Install k3d
+        run: curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+      - name: Create a local Kubernetes cluster with k3d
+        run: |
+          k3d cluster create k3d-local --api-port 6560 -p "80:80@loadbalancer" -p "443:443@loadbalancer" --agents 2
+          docker ps
+          docker network inspect k3d-k3d-local
+          kubectl cluster-info
+      - name: Install HobbyFarm in the local cluster
+        run: |
+          echo "Adding entries in /etc/hosts file"
+          sudo echo "127.0.0.1 admin.hf.local api.hf.local shell.hf.local learn.hf.local" | sudo tee -a /etc/hosts
+          echo "Installing cert-manager in local k3d cluster"
+          kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.10.1/cert-manager.crds.yaml
+          helm repo add jetstack https://charts.jetstack.io
+          helm install cert-manager jetstack/cert-manager --create-namespace --version v1.10.1 --namespace cert-manager
+          kubectl rollout status deployment cert-manager -n cert-manager
+          echo "Creating self-signed cluster certificate issuer"
+          cat <<EOF | kubectl apply -f -
+          apiVersion: cert-manager.io/v1
+          kind: ClusterIssuer
+          metadata:
+            name: selfsigned-cluster-issuer
+          spec:
+            selfSigned: {}
+          EOF
+          echo "Installing hobbyfarm in local k3d cluster"
+          helm repo add hobbyfarm https://hobbyfarm.github.io/hobbyfarm
+          helm install hobbyfarm hobbyfarm/hobbyfarm --create-namespace \
+            --set hobbyfarm.ingress.annotations.'cert-manager\.io/cluster-issuer'=selfsigned-cluster-issuer \
+            --set ingress.enabled=true \
+            --set ingress.tls.enabled=true \
+            --set ingress.tls.secrets.admin=hf-admin-tls \
+            --set ingress.tls.secrets.backend=hf-backend-tls \
+            --set ingress.tls.secrets.shell=hf-shell-tls \
+            --set ingress.tls.secrets.ui=hf-ui-tls \
+            --set ingress.hostnames.admin=admin.hf.local \
+            --set ingress.hostnames.backend=api.hf.local \
+            --set ingress.hostnames.shell=shell.hf.local \
+            --set ingress.hostnames.ui=learn.hf.local \
+            --set terraform.enabled=false \
+            --namespace hobbyfarm-ci
+          kubectl rollout status deployment gargantua -n hobbyfarm-ci
+          # mandatory hack so the user can be created without error
+          sleep 30
+          helm upgrade --reuse-values hobbyfarm hobbyfarm/hobbyfarm \
+            --set users.admin.enabled=true \
+            --set users.admin.password=$HOBBYFARM_ADMIN_UI_HASHPWD \
+            --namespace hobbyfarm-ci
+          kubectl rollout status deployment gargantua -n hobbyfarm-ci
+          echo "Checking Admin UI"
+          curl -o /dev/null -k -s -w "%{http_code}\n" https://admin.hf.local
+          echo "Checking UI"
+          curl -o /dev/null -k -s -w "%{http_code}\n" https://learn.hf.local
+        env:
+          HOBBYFARM_ADMIN_UI_HASHPWD: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests against Staging environment
+        run: npx playwright test --trace on
+        env:
+          HOBBYFARM_ADMIN_UI_URL: https://admin.hf.local
+          HOBBYFARM_ADMIN_UI_USR: admin
+          HOBBYFARM_ADMIN_UI_PWD: admin
+          HOBBYFARM_UI_HEADER_TITLE: Rancher HobbyFarm
+          HOBBYFARM_UI_URL: https://learn.hf.local
+          HOBBYFARM_GARGANTUA_URL: https://api.hf.local
+      - name: Save pipeline artifacts
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: code-quality-reports
+          path: |
+            playwright-report/
+            megalinter-reports/
+            mega-linter.log
+          retention-days: 30
+      - name: Clean-up containers
+        run: |
+          # helm uninstall hobbyfarm -n hobbyfarm-ci 2>&1
+          k3d cluster stop k3d-local
+          k3d cluster delete k3d-local
