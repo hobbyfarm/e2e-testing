@@ -8,6 +8,8 @@ DISABLE:
 DISABLE_LINTERS:
   # temporary fix for https://github.com/oxsecurity/megalinter/issues/1664
   - REPOSITORY_DEVSKIM
+  # code scan will be done by Sonar
+  - REPOSITORY_TRIVY
 JSON_JSONLINT_ARGUMENTS: "--comments"
 FILEIO_REPORTER: false
 REPOSITORY_CHECKOV_ARGUMENTS: "--skip-path=.github"

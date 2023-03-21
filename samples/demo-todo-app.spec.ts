@@ -125,7 +125,6 @@ test.describe('Mark all as completed', () => {
 });
 
 test.describe('Item', () => {
-
   test('should allow me to mark items as complete', async ({ page }) => {
     // create a new todo locator
     const newTodo = page.getByPlaceholder('What needs to be done?');
@@ -207,7 +206,7 @@ test.describe('Editing', () => {
     await todoItem.dblclick();
     await expect(todoItem.getByRole('checkbox')).not.toBeVisible();
     await expect(todoItem.locator('label', {
-      hasText: TODO_ITEMS[1],
+      hasText: TODO_ITEMS[1]
     })).not.toBeVisible();
     await checkNumberOfTodosInLocalStorage(page, 3);
   });
@@ -221,7 +220,7 @@ test.describe('Editing', () => {
     await expect(todoItems).toHaveText([
       TODO_ITEMS[0],
       'buy some sausages',
-      TODO_ITEMS[2],
+      TODO_ITEMS[2]
     ]);
     await checkTodosInLocalStorage(page, 'buy some sausages');
   });
@@ -235,7 +234,7 @@ test.describe('Editing', () => {
     await expect(todoItems).toHaveText([
       TODO_ITEMS[0],
       'buy some sausages',
-      TODO_ITEMS[2],
+      TODO_ITEMS[2]
     ]);
     await checkTodosInLocalStorage(page, 'buy some sausages');
   });
@@ -248,7 +247,7 @@ test.describe('Editing', () => {
 
     await expect(todoItems).toHaveText([
       TODO_ITEMS[0],
-      TODO_ITEMS[2],
+      TODO_ITEMS[2]
     ]);
   });
 
@@ -398,7 +397,7 @@ test.describe('Routing', () => {
   test('should highlight the currently applied filter', async ({ page }) => {
     await expect(page.getByRole('link', { name: 'All' })).toHaveClass('selected');
 
-    //create locators for active and completed links
+    // create locators for active and completed links
     const activeLink = page.getByRole('link', { name: 'Active' });
     const completedLink = page.getByRole('link', { name: 'Completed' });
     await activeLink.click();
@@ -424,18 +423,18 @@ async function createDefaultTodos(page: Page) {
 
 async function checkNumberOfTodosInLocalStorage(page: Page, expected: number) {
   return await page.waitForFunction(e => {
-    return JSON.parse(localStorage['react-todos']).length === e;
+    return JSON.parse(window.localStorage['react-todos']).length === e;
   }, expected);
 }
 
 async function checkNumberOfCompletedTodosInLocalStorage(page: Page, expected: number) {
   return await page.waitForFunction(e => {
-    return JSON.parse(localStorage['react-todos']).filter((todo: Todo) => todo.completed).length === e;
+    return JSON.parse(window.localStorage['react-todos']).filter((todo: Todo) => todo.completed).length === e;
   }, expected);
 }
 
 async function checkTodosInLocalStorage(page: Page, title: string) {
   return await page.waitForFunction(t => {
-    return JSON.parse(localStorage['react-todos']).map((todo: Todo) => todo.title).includes(t);
+    return JSON.parse(window.localStorage['react-todos']).map((todo: Todo) => todo.title).includes(t);
   }, title);
 }
