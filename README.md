@@ -9,7 +9,7 @@ Automated testing solution to validate an instance of [HobbyFarm](https://github
 
 This repository has been created in February 2023 and is under active development. The design has been being documented in an ADR (Architecture Decision Record): [adr-init-solution-202302.md](docs/adr/adr-init-solution-202302.md).
 
-## How to run the tests
+## How to run end-to-end tests
 
 The technical solution is based on [Playwright](https://playwright.dev). The following setup is required in order to run the tests on a machine:
 
@@ -34,6 +34,13 @@ npx playwright show-report
 
 # opens a browser to help generate tests (see https://playwright.dev/docs/codegen for options)
 npx playwright codegen
+```
+
+## How to BDD tests
+
+```bash
+# runs features defined in acceptance folder
+npx cucumber-js
 ```
 
 ## How to contribute

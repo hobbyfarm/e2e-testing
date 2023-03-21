@@ -113,3 +113,6 @@ dist
 
 # MegaLinter file
 megalinter-reports/
+
+# Cucumber reports
+cucumber-report.html
