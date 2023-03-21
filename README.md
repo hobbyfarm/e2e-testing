@@ -1,7 +1,7 @@
 # End-to-end testing solution for HobbyFarm
 
 [![CI](https://github.com/hobbyfarm/e2e-testing/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/hobbyfarm/e2e-testing/actions/workflows/ci.yaml)
-[![Nightly](https://github.com/hobbyfarm/e2e-testing/actions/workflows/nightly.yml/badge.svg?branch=main)](https://github.com/hobbyfarm/e2e-testing/actions/workflows/nightly.yml)
+[![Nightly](https://github.com/hobbyfarm/e2e-testing/actions/workflows/nightly.yaml/badge.svg?branch=main)](https://github.com/hobbyfarm/e2e-testing/actions/workflows/nightly.yaml)
 
 Automated testing solution to validate an instance of [HobbyFarm](https://github.com/hobbyfarm) (API + web app), the Cloud Native e-learning platform!
 
