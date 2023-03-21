@@ -36,7 +36,9 @@ npx playwright show-report
 npx playwright codegen
 ```
 
-## How to BDD tests
+## How to run acceptance tests
+
+Acceptance testing has been written in Gherkin languages and are mapped to the code thanks to [Cucumber](https://cucumber.io/) ([code](https://github.com/cucumber/cucumber-js))
 
 ```bash
 # runs features defined in acceptance folder
