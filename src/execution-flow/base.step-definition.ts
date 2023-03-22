@@ -12,7 +12,7 @@ export class BaseStepDefinition {
     dotenv.config();
     const browser = await chromium.launch();
     this.sessionContext.browser = browser;
-    const context = await browser.newContext();
+    const context = await browser.newContext({ ignoreHTTPSErrors: true });
     this.sessionContext.browserContext = context;
     this.sessionContext.page = await context.newPage();
   }
