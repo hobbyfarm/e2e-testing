@@ -1,9 +1,7 @@
 import { Locator, Page } from '@playwright/test';
-import { ContentManagementPage } from '.';
 
 export class ScenarioPage {
   readonly page: Page;
-  readonly scenarioName: string;
   readonly newScenarioButton: Locator;
   readonly saveButtonLink: Locator;
   readonly cancelButtonLink: Locator;
@@ -13,7 +11,7 @@ export class ScenarioPage {
   readonly newScenarioKeepaliveDuration: Locator;
   readonly newScenarioPauseDuration: Locator;
 
-  constructor(page: Page, username: string) {
+  constructor(page: Page) {
     this.page = page;
     this.scenarioLink = page.getByRole('link', { name: 'Scenarios' });
     this.newScenarioButton = page.getByRole('button', { name: 'New Scenario' });
@@ -25,22 +23,22 @@ export class ScenarioPage {
     this.cancelButtonLink = page.getByRole('button', { name: 'Cancel' });
   }
 
-  async openNewScenarioForm (): Promise<ContentManagementPage> {
+  async openNewScenarioForm (): Promise<ScenarioPage> {
     await this.scenarioLink.click();
-    return await this.openNewScenarioForm();
+    await this.newScenarioButton.click();
+    return new ScenarioPage(this.page);
   }
 
-  async fillNewScenarioForm(scenarioName: string, description: string, keepaliveduration: string, pauseduration: string): Promise<ContentManagementPage> {
+  async fillNewScenarioForm(scenarioName: string, description: string, keepaliveduration: string, pauseduration: string): Promise<ScenarioPage> {
     await this.newScenarioName.fill(scenarioName);
     await this.newScenarioDescription.fill(description);
     await this.newScenarioKeepaliveDuration.fill(keepaliveduration);
     await this.newScenarioPauseDuration.fill(pauseduration);
-    await this.saveButtonLink.click();
-    return await this.fillNewScenarioForm(scenarioName, description, keepaliveduration, pauseduration);
+    return new ScenarioPage(this.page);
   }
 
-  async saveNewScenarioForm(): Promise<ContentManagementPage> {
+  async saveNewScenarioForm(): Promise<ScenarioPage> {
     await this.saveButtonLink.click();
-    return await this.saveNewScenarioForm();
+    return new ScenarioPage(this.page);
   }
 }

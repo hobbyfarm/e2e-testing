@@ -1,5 +1,5 @@
 import { test } from '@playwright/test';
-import { LoginPage, ScenarioPage } from '../src/pages/admin-ui';
+import { LoginPage } from '../src/pages/admin-ui';
 
 test('create new scenario', async ({ page }) => {
     let loginPage = new LoginPage(page);

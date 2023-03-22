@@ -15,7 +15,7 @@ export class BasePage {
   private readonly closeButton: Locator;
   private readonly cancelButton: Locator;
   private readonly logoutButton: Locator;
-  private readonly username: string;
+  protected readonly username: string;
 
   constructor(page: Page, username: string) {
     this.page = page;

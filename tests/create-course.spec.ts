@@ -1,5 +1,5 @@
 import { test } from '@playwright/test';
-import { LoginPage, CoursePage } from '../src/pages/admin-ui';
+import { LoginPage } from '../src/pages/admin-ui';
 
 test('create new course', async ({ page }) => {
     let loginPage = new LoginPage(page);
