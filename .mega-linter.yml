@@ -13,6 +13,8 @@ DISABLE_LINTERS:
   # semi rule cannot be ignored by JavaScript Standard
   - JAVASCRIPT_STANDARD
   - TYPESCRIPT_STANDARD
+  # temp by Michael
+  - SPELL_CSPELL
 EDITORCONFIG_FILTER_REGEX_EXCLUDE: (LICENSE)
 JSON_JSONLINT_ARGUMENTS: "--comments"
 FILEIO_REPORTER: false
