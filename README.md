@@ -3,13 +3,15 @@
 [![CI](https://github.com/hobbyfarm/e2e-testing/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/hobbyfarm/e2e-testing/actions/workflows/ci.yaml)
 [![Nightly](https://github.com/hobbyfarm/e2e-testing/actions/workflows/nightly.yaml/badge.svg?branch=main)](https://github.com/hobbyfarm/e2e-testing/actions/workflows/nightly.yaml)
 
-Automated testing solution to validate an instance of [HobbyFarm](https://github.com/hobbyfarm) (API + web app), the Cloud Native e-learning platform!
+Automated testing solution to validate [HobbyFarm](https://github.com/hobbyfarm) (API + web app), the Cloud Native e-learning platform!
 
 ## Current state
 
-This repository has been created in February 2023 and is under active development. The design has been being documented in an ADR (Architecture Decision Record): [adr-init-solution-202302.md](docs/adr/adr-init-solution-202302.md).
+This repository has been created in February 2023 and is under active development.
 
-## How to run end-to-end tests
+The design has been documented in ADRs (Architecture Decision Record): [Solution init (Feb 2023)](docs/adr/adr-init-solution-202302.md).
+
+## How to run tests
 
 The technical solution is based on [Playwright](https://playwright.dev). The following setup is required in order to run the tests on a machine:
 

@@ -1,10 +1,10 @@
+@WebApp
 Feature: User Login on HobbyFarm Admin UI
-  As a registered HobbyFarm admin user
-  I want to log in to HobbyFarm Admin UI
-  So that I can access my profile and manage content
+    As a registered HobbyFarm admin user
+    I want to log in to HobbyFarm Admin UI
+    So that I can access my profile and manage content
 
-  @WebApp
-  Scenario: Successful user login on HobbyFarm Admin UI
+Scenario: Successful user login on HobbyFarm Admin UI
     Given I am on the HobbyFarm Admin UI login page
     When I enter my valid username and password
     And click the login button
