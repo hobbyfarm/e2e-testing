@@ -6,6 +6,6 @@ Feature: User logout from HobbyFarm Admin UI
 
 Scenario: User successfully logs out from HobbyFarm Admin UI
   Given the user is logged in the Admin UI
-  When the user clicks on the "Logout" button
+  When the user clicks on the logout button
   Then the user is logged out from the application
   And the user is redirected to the login page

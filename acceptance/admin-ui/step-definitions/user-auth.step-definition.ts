@@ -44,7 +44,7 @@ export class UserAuthStepDefinition extends BaseStepDefinition {
     this.sessionContext.current = homePage;
   }
 
-  @when(/the user clicks on the "Logout" button/, 'AdminUI')
+  @when(/the user clicks on the logout button/, 'AdminUI')
   public async givenLogoutButtonIsClicked(): Promise<void> {
     expect(this.sessionContext.current).toBeInstanceOf(BasePage);
     const loginPage = await (this.sessionContext.current as HomePage).logout();
