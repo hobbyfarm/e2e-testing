@@ -25,7 +25,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          # full git history is needed to get a proper list of changed files within `super-linter`
+          # full git history is needed to get a proper list of changed files
           fetch-depth: 0
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -41,18 +41,13 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install NPM packages
         run: npm install
-      # TODO: add SonarCloud code scan
       - name: Lint codebase
-        # fix: https://github.com/marketplace/actions/super-linter was too complicated and outdated
-        # uses: github/super-linter@v4.10.1
+        # hint: https://github.com/marketplace/actions/super-linter was too outdated and complicated to configure
         uses: oxsecurity/megalinter@v6
         env:
           VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # hack: enable when https://github.com/github/super-linter/issues/3965 is fixed
-          # VALIDATE_GITHUB_ACTIONS: false
-          # KUBERNETES_KUBEVAL_FILTER_REGEX_EXCLUDE: (\.github\/workflows)
       # TODO: scan code with SonarCloud
       - name: Install k3d
         run: curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
@@ -112,8 +107,17 @@ jobs:
           HOBBYFARM_ADMIN_UI_HASHPWD: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
-      - name: Run Playwright tests against Staging environment
+      - name: Run tests against local environment
         run: npx playwright test --trace on
+        env:
+          HOBBYFARM_ADMIN_UI_URL: https://admin.hf.local
+          HOBBYFARM_ADMIN_UI_USR: admin
+          HOBBYFARM_ADMIN_UI_PWD: admin
+          HOBBYFARM_UI_HEADER_TITLE: Rancher HobbyFarm
+          HOBBYFARM_UI_URL: https://learn.hf.local
+          HOBBYFARM_GARGANTUA_URL: https://api.hf.local
+      - name: Run acceptance tests against local environment
+        run: npx cucumber-js
         env:
           HOBBYFARM_ADMIN_UI_URL: https://admin.hf.local
           HOBBYFARM_ADMIN_UI_USR: admin
@@ -130,6 +134,7 @@ jobs:
             playwright-report/
             megalinter-reports/
             mega-linter.log
+            cucumber-report.html
           retention-days: 30
       - name: Clean-up containers
         run: |

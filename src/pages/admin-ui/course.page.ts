@@ -54,6 +54,7 @@ export class CoursePage {
     return new CoursePage(this.page);
   }
 
+  // TODO (Bertrand 2023-03-23): investigate this method as it was not working in the CI pipeline and my computer
   async deleteCourse(): Promise<CoursePage> {
     await this.selectCourse.dispatchEvent('click');
     await this.deleteCourseButton.dispatchEvent('click');

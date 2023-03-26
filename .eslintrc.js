@@ -40,6 +40,9 @@ module.exports = {
       'error',
       { max: 1 }
     ],
+    'no-explicit-any': [
+      'off'
+    ],
     'semi-spacing': [
       'error',
       { 'before': false, 'after': true }

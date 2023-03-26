@@ -1,0 +1,13 @@
+# https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md
+default:
+  # https://github.com/cucumber/cucumber-js/blob/main/docs/formatters.md
+  format:
+    - progress-bar
+    - html:cucumber-report.html
+  parallel: 2
+  paths:
+    - acceptance/**/features/*.feature
+  require:
+    - acceptance/**/step-definitions/*.ts
+  requireModule:
+    - ts-node/register
