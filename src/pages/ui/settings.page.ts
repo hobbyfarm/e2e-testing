@@ -31,7 +31,6 @@ export class SettingsPage {
     this.manageAccessCodesInput = page.getByLabel('Access Code', { exact: true });
     this.profilSAAC = page.getByRole('button', { name: 'Save & Activate' });
     this.profilErrorAC = page.getByText('error adding access code');
-    this.profilSelectAC = page.getByRole('row', { name: 'Available actions ' + process.env.HOBBYFARM_ACCESS_CODE + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg');
     this.profilDelete = page.getByRole('button', { name: 'Delete' });
     this.profilClose = page.getByText('Close');
     this.profilSave = page.getByRole('button', { name: 'Save' });
@@ -142,25 +141,25 @@ export class SettingsPage {
     await this.openProfilMAC();
     await this.openProfilAAC();
     await this.openProfilACField();
-    await this.accessCodeInput(process.env.HOBBYFARM_ACCESS_CODE as string);
+    await this.accessCodeInput(accessCode as string);
     await this.openProfilSAAC();
-    await expect(this.page.getByRole('gridcell', { name: process.env.HOBBYFARM_ACCESS_CODE })).toHaveText(process.env.HOBBYFARM_ACCESS_CODE as string);
-    await this.openSelectAC();
+    await expect(this.page.getByRole('gridcell', { name: accessCode })).toHaveText(accessCode as string);
+    this.page.getByRole('row', { name: 'Available actions ' + accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg');
     await this.openDelete();
     await this.openClose();
     return new SettingsPage(this.page);
   }
 
-  async openAccessCodeUnique(): Promise<SettingsPage> {
+  async openAccessCodeUnique(accessCode): Promise<SettingsPage> {
     await this.openProfil();
     await this.openProfilMAC();
     await this.openProfilAAC();
     await this.openProfilACField();
-    await this.accessCodeInput(process.env.HOBBYFARM_ACCESS_CODE as string);
+    await this.accessCodeInput(accessCode as string);
     await this.openProfilSAAC();
     await this.openProfilAAC();
     await this.openProfilACField();
-    await this.accessCodeInput(process.env.HOBBYFARM_ACCESS_CODE as string);
+    await this.accessCodeInput(accessCode as string);
     await this.openProfilSAAC();
     await this.openErrorAC();
     await this.openSelectAC();
@@ -183,29 +182,29 @@ export class SettingsPage {
     return new SettingsPage(this.page);
   }
 
-  async openPasswordChangeTest(): Promise<SettingsPage> {
+  async openPasswordChangeTest(password1, password2): Promise<SettingsPage> {
     await this.openProfil();
     await this.openProfilChangePassword();
     await this.openProfilOldPasswordField();
-    await this.openProfilOldPasswordInput(process.env.HOBBYFARM_ADMIN_UI_PWD as string);
+    await this.openProfilOldPasswordInput(password1 as string);
     await this.openProfilNewPasswordField();
-    await this.openProfilNewPasswordInput(process.env.HOBBYFARM_ADMIN_UI_PWD_TEST as string);
+    await this.openProfilNewPasswordInput(password2 as string);
     await this.openProfilNewPasswordAgainField();
-    await this.openProfilNewPasswordAgainInput(process.env.HOBBYFARM_ADMIN_UI_PWD_TEST as string);
+    await this.openProfilNewPasswordAgainInput(password2 as string);
     await this.openProfilChangePasswordB();
     return new SettingsPage(this.page);
   }
 
-  async openPasswordChangeBack(): Promise<SettingsPage> {
-  await this.openProfil();
-  await this.openProfilChangePassword();
-  await this.openProfilOldPasswordField();
-  await this.openProfilOldPasswordInput(process.env.HOBBYFARM_ADMIN_UI_PWD_TEST as string);
-  await this.openProfilNewPasswordField();
-  await this.openProfilNewPasswordInput(process.env.HOBBYFARM_ADMIN_UI_PWD as string);
-  await this.openProfilNewPasswordAgainField();
-  await this.openProfilNewPasswordAgainInput(process.env.HOBBYFARM_ADMIN_UI_PWD as string);
-  await this.openProfilChangePasswordB();
-  return new SettingsPage(this.page);
+  async openPasswordChangeBack(password1, password2): Promise<SettingsPage> {
+    await this.openProfil();
+    await this.openProfilChangePassword();
+    await this.openProfilOldPasswordField();
+    await this.openProfilOldPasswordInput(password2 as string);
+    await this.openProfilNewPasswordField();
+    await this.openProfilNewPasswordInput(password1 as string);
+    await this.openProfilNewPasswordAgainField();
+    await this.openProfilNewPasswordAgainInput(password1 as string);
+    await this.openProfilChangePasswordB();
+    return new SettingsPage(this.page);
   }
 }
