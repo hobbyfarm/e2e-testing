@@ -38,6 +38,7 @@ jobs:
           HOBBYFARM_ADMIN_UI_PWD: admin
           HOBBYFARM_UI_URL: https://someurl
           HOBBYFARM_GARGANTUA_URL: https://someurl
+          HOBBYFARM_ADMIN_UI_PWD_NEW: admin
       - uses: actions/upload-artifact@v3
         if: always()
         with:
