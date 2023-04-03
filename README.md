@@ -31,6 +31,9 @@ Once the setup and configuration is completed, you can run several commands:
 # runs the end-to-end tests (see https://playwright.dev/docs/running-tests)
 npx playwright test
 
+# run the tests from the test browser (really cool to see & debug!)
+npx playwright test --ui
+
 # opens last HTML report run
 npx playwright show-report
 

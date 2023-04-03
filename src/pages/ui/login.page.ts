@@ -16,7 +16,8 @@ export class LoginPage {
 
   async goto(url: string) {
     await this.page.goto(url);
-    await expect(this.page).toHaveURL(`${url}/login`);
+    // @since chart release 2.0.8 (hobbyfarm/admin-ui:v2.0.3)
+    await expect(this.page).toHaveURL(`${url}/login?returnUrl=%2Fapp%2Fhome`);
   }
 
   async fillCredentialsAndSubmit(headerTitle: string, emailAddress: string, password: string): Promise<HomePage> {
