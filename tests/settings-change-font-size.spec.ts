@@ -4,9 +4,9 @@ import { SettingsPage } from '../src/pages/ui';
 
 test('SettingsChange', async({ page }) => {
   let loginPage = new UILoginPage(page);
-  let settingsPage = new SettingsPage(page);
+  const settingsPage = new SettingsPage(page);
   await loginPage.goto(process.env.HOBBYFARM_UI_URL as string);
-  let homePage = await loginPage.fillCredentialsAndSubmit(process.env.HOBBYFARM_UI_HEADER_TITLE as string, process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
+  const homePage = await loginPage.fillCredentialsAndSubmit(process.env.HOBBYFARM_UI_HEADER_TITLE as string, process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
   await settingsPage.openSettingsChangeFontSize();
   loginPage = await homePage.logout();
-})
+});
