@@ -1,0 +1,37 @@
+{
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/vscode-extension/**",
+    "**/.git/**",
+    "**/.pnpm-lock.json",
+    "*.json",
+    ".github",
+    ".gitignore",
+    ".vscode",
+    "megalinter",
+    "package-lock.json",
+    "report"
+  ],
+  "language": "en",
+  "noConfigSearch": true,
+  "words": [
+    "codegen",
+    "devskim",
+    "featureset",
+    "godog",
+    "hobbyfarm",
+    "jsonlint",
+    "linebreak",
+    "markdownlint",
+    "megalinter",
+    "msedge",
+    "oxsecurity",
+    "sourcegraph",
+    "taiko",
+    "tebeka",
+    "textbox",
+    "todos",
+    "trivy"
+  ],
+  "version": "0.2"
+}

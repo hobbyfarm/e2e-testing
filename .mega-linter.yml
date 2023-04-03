@@ -1,0 +1,23 @@
+# Configuration file for MegaLinter (see https://megalinter.io/configuration/)
+
+APPLY_FIXES: none
+ACTION_ACTIONLINT_ARGUMENTS: "-ignore SC2086"
+DISABLE:
+  # temporary (March 2023)
+  - COPYPASTE
+DISABLE_LINTERS:
+  # temporary fix for https://github.com/oxsecurity/megalinter/issues/1664
+  - REPOSITORY_DEVSKIM
+  # code scan will be done by Sonar
+  - REPOSITORY_TRIVY
+  # semi rule cannot be ignored by JavaScript Standard
+  - JAVASCRIPT_STANDARD
+  - TYPESCRIPT_STANDARD
+  # temp by Michael
+  - SPELL_CSPELL
+EDITORCONFIG_FILTER_REGEX_EXCLUDE: (LICENSE)
+JSON_JSONLINT_ARGUMENTS: "--comments"
+FILEIO_REPORTER: false
+REPOSITORY_CHECKOV_ARGUMENTS: "--skip-path=.github"
+REPOSITORY_DEVSKIM_ARGUMENTS: ["--ignore-globs", "**/node_modules/**"]
+SHOW_ELAPSED_TIME: true

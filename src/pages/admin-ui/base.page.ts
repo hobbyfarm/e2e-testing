@@ -2,7 +2,7 @@ import { Locator, Page } from '@playwright/test';
 import { ConfigurationPage, ContentManagementPage, DashboardPage, HomePage, LoginPage, ScheduledEventPage, UserPage } from '.';
 
 export class BasePage {
-  private readonly page: Page;
+  protected readonly page: Page;
   private readonly homeMenuLink: Locator;
   private readonly dashboardMenuLink: Locator;
   private readonly scheduledEventMenuLink: Locator;
@@ -15,7 +15,7 @@ export class BasePage {
   private readonly closeButton: Locator;
   private readonly cancelButton: Locator;
   private readonly logoutButton: Locator;
-  private readonly username: string;
+  protected readonly username: string;
 
   constructor(page: Page, username: string) {
     this.page = page;
