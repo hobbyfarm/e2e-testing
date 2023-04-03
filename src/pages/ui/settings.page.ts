@@ -182,28 +182,28 @@ export class SettingsPage {
     return new SettingsPage(this.page);
   }
 
-  async openPasswordChangeTest(oldPassword, newPassword): Promise<SettingsPage> {
+  async openPasswordChangeTest(password1, password2): Promise<SettingsPage> {
     await this.openProfil();
     await this.openProfilChangePassword();
     await this.openProfilOldPasswordField();
-    await this.openProfilOldPasswordInput(oldPassword as string);
+    await this.openProfilOldPasswordInput(password1 as string);
     await this.openProfilNewPasswordField();
-    await this.openProfilNewPasswordInput(newPassword as string);
+    await this.openProfilNewPasswordInput(password2 as string);
     await this.openProfilNewPasswordAgainField();
-    await this.openProfilNewPasswordAgainInput(newPassword as string);
+    await this.openProfilNewPasswordAgainInput(password2 as string);
     await this.openProfilChangePasswordB();
     return new SettingsPage(this.page);
   }
 
-  async openPasswordChangeBack(oldPassword, newPassword): Promise<SettingsPage> {
+  async openPasswordChangeBack(password1, password2): Promise<SettingsPage> {
     await this.openProfil();
     await this.openProfilChangePassword();
     await this.openProfilOldPasswordField();
-    await this.openProfilOldPasswordInput(newPassword as string);
+    await this.openProfilOldPasswordInput(password2 as string);
     await this.openProfilNewPasswordField();
-    await this.openProfilNewPasswordInput(oldPassword as string);
+    await this.openProfilNewPasswordInput(password1 as string);
     await this.openProfilNewPasswordAgainField();
-    await this.openProfilNewPasswordAgainInput(oldPassword as string);
+    await this.openProfilNewPasswordAgainInput(password1 as string);
     await this.openProfilChangePasswordB();
     return new SettingsPage(this.page);
   }
