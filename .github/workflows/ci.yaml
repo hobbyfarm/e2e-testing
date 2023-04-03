@@ -121,6 +121,7 @@ jobs:
           HOBBYFARM_UI_HEADER_TITLE: Rancher HobbyFarm
           HOBBYFARM_UI_URL: https://learn.hf.local
           HOBBYFARM_GARGANTUA_URL: https://api.hf.local
+          HOBBYFARM_ADMIN_UI_PWD_NEW: admin
       - name: Save pipeline artifacts
         uses: actions/upload-artifact@v3
         if: always()

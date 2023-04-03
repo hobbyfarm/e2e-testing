@@ -9,7 +9,6 @@ export class SettingsPage {
   readonly profilAAC: Locator;
   readonly profilSAAC: Locator;
   readonly profilErrorAC: Locator;
-  readonly profilSelectAC: Locator;
   readonly profilDelete: Locator;
   readonly profilClose: Locator;
   readonly profilSave: Locator;
@@ -70,10 +69,6 @@ export class SettingsPage {
 
   async openErrorAC() { // Profil Save&ActivateAccessCode
     await this.profilErrorAC.click();
-  }
-
-  async openSelectAC() {
-    await this.profilSelectAC.click();
   }
 
   async openDelete() {
@@ -150,7 +145,7 @@ export class SettingsPage {
     return new SettingsPage(this.page);
   }
 
-  async openAccessCodeUnique(accessCode): Promise<SettingsPage> {
+  async openAccessCodeUnique(accessCode: string): Promise<SettingsPage> {
     await this.openProfil();
     await this.openProfilMAC();
     await this.openProfilAAC();
@@ -162,7 +157,8 @@ export class SettingsPage {
     await this.accessCodeInput(accessCode as string);
     await this.openProfilSAAC();
     await this.openErrorAC();
-    await this.openSelectAC();
+    await expect(this.page.getByRole('gridcell', { name: accessCode })).toHaveText(accessCode as string);
+    this.page.getByRole('row', { name: 'Available actions ' + accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg');
     await this.openDelete();
     await this.openClose();
     return new SettingsPage(this.page);
@@ -182,28 +178,28 @@ export class SettingsPage {
     return new SettingsPage(this.page);
   }
 
-  async openPasswordChangeTest(password1, password2): Promise<SettingsPage> {
+  async openPasswordChangeTest(oldPassword: string, newPassword: string): Promise<SettingsPage> {
     await this.openProfil();
     await this.openProfilChangePassword();
     await this.openProfilOldPasswordField();
-    await this.openProfilOldPasswordInput(password1 as string);
+    await this.openProfilOldPasswordInput(oldPassword as string);
     await this.openProfilNewPasswordField();
-    await this.openProfilNewPasswordInput(password2 as string);
+    await this.openProfilNewPasswordInput(newPassword as string);
     await this.openProfilNewPasswordAgainField();
-    await this.openProfilNewPasswordAgainInput(password2 as string);
+    await this.openProfilNewPasswordAgainInput(newPassword as string);
     await this.openProfilChangePasswordB();
     return new SettingsPage(this.page);
   }
 
-  async openPasswordChangeBack(password1, password2): Promise<SettingsPage> {
+  async openPasswordChangeBack(oldPassword: string, newPassword: string): Promise<SettingsPage> {
     await this.openProfil();
     await this.openProfilChangePassword();
     await this.openProfilOldPasswordField();
-    await this.openProfilOldPasswordInput(password2 as string);
+    await this.openProfilOldPasswordInput(newPassword as string);
     await this.openProfilNewPasswordField();
-    await this.openProfilNewPasswordInput(password1 as string);
+    await this.openProfilNewPasswordInput(oldPassword as string);
     await this.openProfilNewPasswordAgainField();
-    await this.openProfilNewPasswordAgainInput(password1 as string);
+    await this.openProfilNewPasswordAgainInput(oldPassword as string);
     await this.openProfilChangePasswordB();
     return new SettingsPage(this.page);
   }
