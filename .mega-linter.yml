@@ -13,6 +13,8 @@ DISABLE_LINTERS:
   # semi rule cannot be ignored by JavaScript Standard
   - JAVASCRIPT_STANDARD
   - TYPESCRIPT_STANDARD
+  # random error (ENOENT: no such file or directory, open '/github/workspace/github_conf/branch_protection_rules.json')
+  - REPOSITORY_SECRETLINT
   # temp by Michael
   - SPELL_CSPELL
 EDITORCONFIG_FILTER_REGEX_EXCLUDE: (LICENSE)
