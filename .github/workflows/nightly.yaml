@@ -1,6 +1,4 @@
 # purpose: execute every night the test suite on a given environment
-# uses:
-#   - https://github.com/github/super-linter
 # images:
 #   - https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
 
