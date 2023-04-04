@@ -24,6 +24,10 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Debug
+        run: |
+          echo $HOBBYFARM_ADMIN_UI_URL
+          echo $HOBBYFARM_ADMIN_UI_HASHPWD
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
