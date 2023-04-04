@@ -40,7 +40,7 @@ kubectl rollout status deployment gargantua -n hobbyfarm-ci
 sleep 30
 helm upgrade --reuse-values hobbyfarm hobbyfarm/hobbyfarm \
   --set users.admin.enabled=true \
-  --set users.admin.password=$HOBBYFARM_ADMIN_UI_HASHPWD \
+  --set users.admin.password="$HOBBYFARM_ADMIN_UI_HASHPWD" \
   --namespace hobbyfarm-ci
 kubectl rollout status deployment gargantua -n hobbyfarm-ci
 
