@@ -2,13 +2,10 @@
   "name": "e2e-testing",
   "version": "1.0.0",
   "description": "Automated testing solution to validate an instance of [HobbyFarm](https://github.com/hobbyfarm) (API + web app), the Cloud Native e-learning tool",
-  "main": "index.js",
   "directories": {
     "doc": "docs"
   },
-  "scripts": {
-    "tsc": "tsc"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devpro/hobbyfarm-e2e-testing.git"
@@ -21,12 +18,15 @@
   },
   "homepage": "https://github.com/devpro/hobbyfarm-e2e-testing#readme",
   "devDependencies": {
-    "@playwright/test": "^1.31.1",
+    "@cucumber/cucumber": "^9.0.1",
+    "@playwright/test": "^1.32.0",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
+    "cucumber-tsflow": "^4.0.0-rc.7",
     "dotenv": "^16.0.3",
     "eslint": "^8.36.0",
     "mega-linter-runner": "^6.20.1",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
   }
 }
