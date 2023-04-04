@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
 import { LoginPage  as UILoginPage } from '../src/pages/ui';
 import { SettingsPage } from '../src/pages/ui';
-const accessCode: string = new Date().toLocaleString('en-GB',{ timeZone:'UTC'}) + 'u@8Rhgknjkdsrb';
+const accessCode: string = 'e2e-testing' + Math.random();
 
 test('AccessCode', async ({ page }) => {
   let loginPage = new UILoginPage(page);

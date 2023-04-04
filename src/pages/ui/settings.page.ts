@@ -67,7 +67,7 @@ export class SettingsPage {
     await this.profilSAAC.click();
   }
 
-  async openErrorAC() { // Profil Save&ActivateAccessCode
+  async openErrorAC() {
     await this.profilErrorAC.click();
   }
 
@@ -139,7 +139,8 @@ export class SettingsPage {
     await this.accessCodeInput(accessCode as string);
     await this.openProfilSAAC();
     await expect(this.page.getByRole('gridcell', { name: accessCode })).toHaveText(accessCode as string);
-    this.page.getByRole('row', { name: 'Available actions ' + accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg');
+    await this.page.getByRole('row', { name: 'Available actions ' + accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg').click();
+    await this.page.getByRole('row', { name: 'Available actions ' + accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg').click();
     await this.openDelete();
     await this.openClose();
     return new SettingsPage(this.page);
@@ -153,12 +154,14 @@ export class SettingsPage {
     await this.accessCodeInput(accessCode as string);
     await this.openProfilSAAC();
     await this.openProfilAAC();
+    await this.openProfilAAC();
     await this.openProfilACField();
     await this.accessCodeInput(accessCode as string);
     await this.openProfilSAAC();
     await this.openErrorAC();
     await expect(this.page.getByRole('gridcell', { name: accessCode })).toHaveText(accessCode as string);
-    this.page.getByRole('row', { name: 'Available actions ' + accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg');
+    await this.page.getByRole('row', { name: 'Available actions ' + accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg').click();
+    await this.page.getByRole('row', { name: 'Available actions ' + accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg').click();
     await this.openDelete();
     await this.openClose();
     return new SettingsPage(this.page);
