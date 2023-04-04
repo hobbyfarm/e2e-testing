@@ -1,6 +1,4 @@
 # purpose: execute every night the test suite on a given environment
-# uses:
-#   - https://github.com/github/super-linter
 # images:
 #   - https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
 
@@ -12,10 +10,13 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  test:
+  staging-testing:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
+      - name: Debug variables
+        run: |
+          echo $HOBBYFARM_UI_HEADER_TITLE
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Install Node.js
@@ -32,28 +33,25 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install NPM packages
         run: npm install
-      - name: Lint codebase
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: true
-          # hack: enable when https://github.com/github/super-linter/issues/3965 is fixed
-          VALIDATE_GITHUB_ACTIONS: false
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests against Staging environment
         run: npx playwright test --trace on
-        env:
-          HOBBYFARM_ADMIN_UI_URL: ${{ secrets.STAGING_ADMIN_UI_URL }}
-          HOBBYFARM_ADMIN_UI_USR: ${{ secrets.STAGING_ADMIN_UI_USR }}
-          HOBBYFARM_ADMIN_UI_PWD: ${{ secrets.STAGING_ADMIN_UI_PWD }}
-          HOBBYFARM_UI_HEADER_TITLE: ${{ vars.STAGING_UI_HEADER_TITLE }}
-          HOBBYFARM_UI_URL: ${{ secrets.STAGING_UI_URL }}
-          HOBBYFARM_GARGANTUA_URL: ${{ secrets.STAGING_GARGANTUA_URL }}
-          HOBBYFARM_ADMIN_UI_PWD_NEW: ${{ secrets.STAGING_ADMIN_UI_PWD_NEW }}
-      - uses: actions/upload-artifact@v3
+      - name: Run acceptance tests against Staging environment
+        run: npx cucumber-js
+      - name: Save pipeline artifacts
+        uses: actions/upload-artifact@v3
         if: always()
         with:
           name: playwright-report
-          path: playwright-report/
+          path: |
+            playwright-report/
+            cucumber-report.html
           retention-days: 30
-      # TODO: publich tests as NPM package (GitHub registry)
+    env:
+      HOBBYFARM_ADMIN_UI_URL: ${{ secrets.STAGING_ADMIN_UI_URL }}
+      HOBBYFARM_ADMIN_UI_USR: ${{ secrets.STAGING_ADMIN_UI_USR }}
+      HOBBYFARM_ADMIN_UI_PWD: ${{ secrets.STAGING_ADMIN_UI_PWD }}
+      HOBBYFARM_UI_HEADER_TITLE: ${{ vars.STAGING_UI_HEADER_TITLE }}
+      HOBBYFARM_UI_URL: ${{ secrets.STAGING_UI_URL }}
+      HOBBYFARM_GARGANTUA_URL: ${{ secrets.STAGING_GARGANTUA_URL }}
