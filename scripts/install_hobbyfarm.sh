@@ -38,9 +38,10 @@ helm install hobbyfarm hobbyfarm/hobbyfarm --create-namespace \
 kubectl rollout status deployment gargantua -n hobbyfarm-ci
 # mandatory hack so the user can be created without error
 sleep 30
+# shellcheck disable=SC2086
 helm upgrade --reuse-values hobbyfarm hobbyfarm/hobbyfarm \
   --set users.admin.enabled=true \
-  --set users.admin.password="$HOBBYFARM_ADMIN_UI_HASHPWD" \
+  --set users.admin.password=$HOBBYFARM_ADMIN_UI_HASHPWD \
   --namespace hobbyfarm-ci
 kubectl rollout status deployment gargantua -n hobbyfarm-ci
 
