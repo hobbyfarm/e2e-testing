@@ -24,10 +24,6 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Debug variables
-        run: |
-          echo $HOBBYFARM_ADMIN_UI_HASHPWD
-          echo $HOBBYFARM_ADMIN_UI_URL
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
@@ -85,6 +81,7 @@ jobs:
       HOBBYFARM_ADMIN_UI_URL: https://admin.hf.local
       HOBBYFARM_ADMIN_UI_USR: admin
       HOBBYFARM_ADMIN_UI_PWD: admin
+      # looks like a secret but it is a generic value (and we can't access secrets on a pull-request event, see https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#accessing-secrets)
       HOBBYFARM_ADMIN_UI_HASHPWD: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
       HOBBYFARM_UI_HEADER_TITLE: Rancher HobbyFarm
       HOBBYFARM_UI_URL: https://learn.hf.local
