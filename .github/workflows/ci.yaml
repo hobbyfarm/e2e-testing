@@ -64,7 +64,7 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
       - name: Run tests against local environment
-        run: npx playwright test --trace on
+        run: npx playwright test --trace on --global-timeout 180000
       - name: Run acceptance tests against local environment
         run: npx cucumber-js
       - name: Save pipeline artifacts
@@ -85,7 +85,7 @@ jobs:
       HOBBYFARM_ADMIN_UI_URL: https://admin.hf.local
       HOBBYFARM_ADMIN_UI_USR: admin
       HOBBYFARM_ADMIN_UI_PWD: admin
-      HOBBYFARM_ADMIN_UI_HASHPWD: ${{ secrets.LOCAL_ADMIN_UI_HASHPWD }}
+      HOBBYFARM_ADMIN_UI_HASHPWD: ${{ vars.LOCAL_ADMIN_UI_HASHPWD }}
       HOBBYFARM_UI_HEADER_TITLE: Rancher HobbyFarm
       HOBBYFARM_UI_URL: https://learn.hf.local
       HOBBYFARM_GARGANTUA_URL: https://api.hf.local
