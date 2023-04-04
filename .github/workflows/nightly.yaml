@@ -12,7 +12,7 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  test:
+  staging-testing:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
