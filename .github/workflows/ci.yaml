@@ -11,6 +11,8 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  schedule:
+    - cron: "0 22 * * *"
   workflow_dispatch: {}
 
 concurrency:
@@ -52,79 +54,15 @@ jobs:
       - name: Install k3d
         run: curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
       - name: Create a local Kubernetes cluster with k3d
-        run: |
-          k3d cluster create k3d-local --api-port 6560 -p "80:80@loadbalancer" -p "443:443@loadbalancer" --agents 2
-          docker ps
-          docker network inspect k3d-k3d-local
-          kubectl cluster-info
+        run: scripts/create_kubernetes_cluster.sh
       - name: Install HobbyFarm in the local cluster
-        run: |
-          echo "Adding entries in /etc/hosts file"
-          sudo echo "127.0.0.1 admin.hf.local api.hf.local shell.hf.local learn.hf.local" | sudo tee -a /etc/hosts
-          echo "Installing cert-manager in local k3d cluster"
-          kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.10.1/cert-manager.crds.yaml
-          helm repo add jetstack https://charts.jetstack.io
-          helm install cert-manager jetstack/cert-manager --create-namespace --version v1.10.1 --namespace cert-manager
-          kubectl rollout status deployment cert-manager -n cert-manager
-          echo "Creating self-signed cluster certificate issuer"
-          cat <<EOF | kubectl apply -f -
-          apiVersion: cert-manager.io/v1
-          kind: ClusterIssuer
-          metadata:
-            name: selfsigned-cluster-issuer
-          spec:
-            selfSigned: {}
-          EOF
-          echo "Installing hobbyfarm in local k3d cluster"
-          helm repo add hobbyfarm https://hobbyfarm.github.io/hobbyfarm
-          helm install hobbyfarm hobbyfarm/hobbyfarm --create-namespace \
-            --set hobbyfarm.ingress.annotations.'cert-manager\.io/cluster-issuer'=selfsigned-cluster-issuer \
-            --set ingress.enabled=true \
-            --set ingress.tls.enabled=true \
-            --set ingress.tls.secrets.admin=hf-admin-tls \
-            --set ingress.tls.secrets.backend=hf-backend-tls \
-            --set ingress.tls.secrets.shell=hf-shell-tls \
-            --set ingress.tls.secrets.ui=hf-ui-tls \
-            --set ingress.hostnames.admin=admin.hf.local \
-            --set ingress.hostnames.backend=api.hf.local \
-            --set ingress.hostnames.shell=shell.hf.local \
-            --set ingress.hostnames.ui=learn.hf.local \
-            --set terraform.enabled=false \
-            --namespace hobbyfarm-ci
-          kubectl rollout status deployment gargantua -n hobbyfarm-ci
-          # mandatory hack so the user can be created without error
-          sleep 30
-          helm upgrade --reuse-values hobbyfarm hobbyfarm/hobbyfarm \
-            --set users.admin.enabled=true \
-            --set users.admin.password=$HOBBYFARM_ADMIN_UI_HASHPWD \
-            --namespace hobbyfarm-ci
-          kubectl rollout status deployment gargantua -n hobbyfarm-ci
-          echo "Checking Admin UI"
-          curl -o /dev/null -k -s -w "%{http_code}\n" https://admin.hf.local
-          echo "Checking UI"
-          curl -o /dev/null -k -s -w "%{http_code}\n" https://learn.hf.local
-        env:
-          HOBBYFARM_ADMIN_UI_HASHPWD: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
+        run: scripts/install_hobbyfarm.sh
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
       - name: Run tests against local environment
         run: npx playwright test --trace on
-        env:
-          HOBBYFARM_ADMIN_UI_URL: https://admin.hf.local
-          HOBBYFARM_ADMIN_UI_USR: admin
-          HOBBYFARM_ADMIN_UI_PWD: admin
-          HOBBYFARM_UI_HEADER_TITLE: Rancher HobbyFarm
-          HOBBYFARM_UI_URL: https://learn.hf.local
-          HOBBYFARM_GARGANTUA_URL: https://api.hf.local
       - name: Run acceptance tests against local environment
         run: npx cucumber-js
-        env:
-          HOBBYFARM_ADMIN_UI_URL: https://admin.hf.local
-          HOBBYFARM_ADMIN_UI_USR: admin
-          HOBBYFARM_ADMIN_UI_PWD: admin
-          HOBBYFARM_UI_HEADER_TITLE: Rancher HobbyFarm
-          HOBBYFARM_UI_URL: https://learn.hf.local
-          HOBBYFARM_GARGANTUA_URL: https://api.hf.local
       - name: Save pipeline artifacts
         uses: actions/upload-artifact@v3
         if: always()
@@ -137,7 +75,13 @@ jobs:
             cucumber-report.html
           retention-days: 30
       - name: Clean-up containers
-        run: |
-          # helm uninstall hobbyfarm -n hobbyfarm-ci 2>&1
-          k3d cluster stop k3d-local
-          k3d cluster delete k3d-local
+        run: scripts/delete_kubernetes_cluster.sh
+      # TODO: publich tests as NPM package (GitHub registry)
+    env:
+      HOBBYFARM_ADMIN_UI_URL: https://admin.hf.local
+      HOBBYFARM_ADMIN_UI_USR: admin
+      HOBBYFARM_ADMIN_UI_PWD: admin
+      HOBBYFARM_ADMIN_UI_HASHPWD: ${{ secrets.LOCAL_ADMIN_UI_HASHPWD }}
+      HOBBYFARM_UI_HEADER_TITLE: Rancher HobbyFarm
+      HOBBYFARM_UI_URL: https://learn.hf.local
+      HOBBYFARM_GARGANTUA_URL: https://api.hf.local
