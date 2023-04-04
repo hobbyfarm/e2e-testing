@@ -19,7 +19,7 @@
   "homepage": "https://github.com/devpro/hobbyfarm-e2e-testing#readme",
   "devDependencies": {
     "@cucumber/cucumber": "^9.0.1",
-    "@playwright/test": "^1.32.0",
+    "@playwright/test": "1.32.2",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "cucumber-tsflow": "^4.0.0-rc.7",
