@@ -1,8 +1,8 @@
 import { Locator, Page, expect } from '@playwright/test';
 
 export class SettingsPage {
+  private accessCode: string = 'e2e-testing' + Math.random();
   readonly page: Page;
-  readonly profilLink: Locator;
   readonly profilMAC: Locator;
   readonly profilACField: Locator;
   readonly manageAccessCodesInput: Locator;
@@ -23,7 +23,6 @@ export class SettingsPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.profilLink = page.getByRole('button', { name: process.env.HOBBYFARM_ADMIN_UI_USR as string });
     this.profilMAC = page.getByRole('menuitem', { name: 'Manage Access Codes' });
     this.profilAAC = page.getByRole('button', { name: 'Add Access Code' });
     this.profilACField = page.getByLabel('Access Code', { exact: true });
@@ -43,8 +42,8 @@ export class SettingsPage {
     this.profilChangePasswordB = page.getByRole('button', { name: 'Change Password' });
   }
 
-  async openProfil() {
-    await this.profilLink.click();
+  async openProfil(user: string) {
+    await this.page.getByRole('button', { name: user as string }).click();
   }
 
   async openProfilMAC() { //Profil ManageAccessCodes
@@ -59,8 +58,8 @@ export class SettingsPage {
     await this.profilACField.click();
   }
 
-  async accessCodeInput(accessCode: string) {
-    await this.manageAccessCodesInput.fill(accessCode);
+  async accessCodeInput() {
+    await this.manageAccessCodesInput.fill(this.accessCode);
   }
 
   async openProfilSAAC() { // Profil Save&ActivateAccessCode
@@ -131,49 +130,50 @@ export class SettingsPage {
     await this.profilChangePasswordB.click();
   }
 
-  async openAccessCodeAddSaveDelete(accessCode: string): Promise<SettingsPage> {
-    await this.openProfil();
+  async openAccessCodeAddSaveDelete(user: string): Promise<SettingsPage> {
+    await this.openProfil(user as string);
     await this.openProfilMAC();
     await this.openProfilAAC();
     await this.openProfilACField();
-    await this.accessCodeInput(accessCode as string);
+    await this.accessCodeInput();
     await this.openProfilSAAC();
-    await expect(this.page.getByRole('gridcell', { name: accessCode })).toHaveText(accessCode as string);
-    await this.page.getByRole('row', { name: 'Available actions ' + accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg').click();
-    await this.page.getByRole('row', { name: 'Available actions ' + accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg').click();
+    await expect(this.page.getByText(this.accessCode + ' added.')).toHaveText(this.accessCode + ' added.' as string);
+    await expect(this.page.getByRole('gridcell', { name: this.accessCode })).toHaveText(this.accessCode as string);
+    await this.page.getByRole('row', { name: 'Available actions ' + this.accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg').click();
     await this.openDelete();
     await this.openClose();
     return new SettingsPage(this.page);
   }
 
-  async openAccessCodeUnique(accessCode: string): Promise<SettingsPage> {
-    await this.openProfil();
+  async openAccessCodeUnique(user: string): Promise<SettingsPage> {
+    await this.openProfil(user as string);
     await this.openProfilMAC();
     await this.openProfilAAC();
     await this.openProfilACField();
-    await this.accessCodeInput(accessCode as string);
+    await this.accessCodeInput();
     await this.openProfilSAAC();
+    await expect(this.page.getByText('Add Access Code')).toHaveText('Add Access Code' as string);
     await this.openProfilAAC();
     await this.openProfilAAC();
     await this.openProfilACField();
-    await this.accessCodeInput(accessCode as string);
+    await this.accessCodeInput();
     await this.openProfilSAAC();
     await this.openErrorAC();
-    await expect(this.page.getByRole('gridcell', { name: accessCode })).toHaveText(accessCode as string);
-    await this.page.getByRole('row', { name: 'Available actions ' + accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg').click();
-    await this.page.getByRole('row', { name: 'Available actions ' + accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg').click();
+    await expect(this.page.getByText(this.accessCode + ' added.')).toHaveText(this.accessCode + ' added.' as string);
+    await expect(this.page.getByRole('gridcell', { name: this.accessCode })).toHaveText(this.accessCode as string);
+    await this.page.getByRole('row', { name: 'Available actions ' + this.accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg').click();
     await this.openDelete();
     await this.openClose();
     return new SettingsPage(this.page);
   }
 
-  async openSettingsChangeFontSize(): Promise<SettingsPage> {
-    await this.openProfil();
+  async openSettingsChangeFontSize(user: string): Promise<SettingsPage> {
+    await this.openProfil(user as string);
     await this.openProfilSettings();
     await this.openFontSizeField();
     await this.openProfilFontSizeUp();
     await this.openProfilSave();
-    await this.openProfil();
+    await this.openProfil(user as string);
     await this.openProfilSettings();
     await this.openFontSizeField();
     await this.openProfilFontSizeDown();
@@ -181,8 +181,8 @@ export class SettingsPage {
     return new SettingsPage(this.page);
   }
 
-  async openPasswordChangeTest(oldPassword: string, newPassword: string): Promise<SettingsPage> {
-    await this.openProfil();
+  async openPasswordChangeTest(user: string, oldPassword: string, newPassword: string): Promise<SettingsPage> {
+    await this.openProfil(user as string);
     await this.openProfilChangePassword();
     await this.openProfilOldPasswordField();
     await this.openProfilOldPasswordInput(oldPassword as string);
@@ -194,8 +194,8 @@ export class SettingsPage {
     return new SettingsPage(this.page);
   }
 
-  async openPasswordChangeBack(oldPassword: string, newPassword: string): Promise<SettingsPage> {
-    await this.openProfil();
+  async openPasswordChangeBack(user: string, oldPassword: string, newPassword: string): Promise<SettingsPage> {
+    await this.openProfil(user as string);
     await this.openProfilChangePassword();
     await this.openProfilOldPasswordField();
     await this.openProfilOldPasswordInput(newPassword as string);
