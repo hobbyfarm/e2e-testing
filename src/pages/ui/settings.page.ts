@@ -2,8 +2,8 @@ import { Locator, Page, expect } from '@playwright/test';
 
 export class SettingsPage {
   private accessCode: string = 'e2e-testing' + Math.random();
-  private fontSize: number = 14;
-  private fontSizeNew: number = this.fontSize+1;
+  private fontSize = 14;
+  private fontSizeNew = this.fontSize+1;
   readonly page: Page;
   readonly profileMAC: Locator;
   readonly profileACField: Locator;
