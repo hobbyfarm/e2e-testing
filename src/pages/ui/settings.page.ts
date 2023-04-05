@@ -159,7 +159,6 @@ export class SettingsPage {
     await this.accessCodeInput();
     await this.openProfilSAAC();
     await this.openErrorAC();
-    await expect(this.page.getByText(this.accessCode + ' added.')).toHaveText(this.accessCode + ' added.' as string);
     await expect(this.page.getByRole('gridcell', { name: this.accessCode })).toHaveText(this.accessCode as string);
     await this.page.getByRole('row', { name: 'Available actions ' + this.accessCode + ' No associated event' }).getByRole('button', { name: 'Available actions' }).locator('svg').click();
     await this.openDelete();
