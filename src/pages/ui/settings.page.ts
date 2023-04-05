@@ -2,6 +2,8 @@ import { Locator, Page, expect } from '@playwright/test';
 
 export class SettingsPage {
   private accessCode: string = 'e2e-testing' + Math.random();
+  private fontSize: number = 14;
+  private fontSizeNew: number = this.fontSize+1;
   readonly page: Page;
   readonly profileMAC: Locator;
   readonly profileACField: Locator;
@@ -88,8 +90,12 @@ export class SettingsPage {
     await this.profileSettings.click();
   }
 
-  async openFontSizeField() {
+  async openProfileFontSizeField() {
     await this.profileFontSizeField.click();
+  }
+
+  async openProfileFillFontSize() {
+    await this.profileFontSize.fill(this.fontSize.toString());
   }
 
   async openProfileFontSizeUp() {
@@ -188,12 +194,15 @@ export class SettingsPage {
   async openSettingsChangeFontSize(user: string): Promise<SettingsPage> {
     await this.openProfile(user as string);
     await this.openProfileSettings();
-    await this.openFontSizeField();
+    await this.openProfileFontSizeField();
+    await this.openProfileFillFontSize();
     await this.openProfileFontSizeUp();
     await this.openProfileSave();
     await this.openProfile(user as string);
     await this.openProfileSettings();
-    await this.openFontSizeField();
+    await expect(this.page.getByLabel('Font-Size')).toHaveValue(this.fontSizeNew.toString());
+    await expect(this.page.locator('clr-checkbox-wrapper label')).toBeChecked();
+    await this.openProfileFontSizeField();
     await this.openProfileFontSizeDown();
     await this.openProfileSave();
     return new SettingsPage(this.page);
@@ -233,7 +242,9 @@ export class SettingsPage {
     await this.openProfileSave();
     await this.openProfile(user as string);
     await this.openProfileSettings();
+    await expect(this.page.locator('div:nth-child(2) > .theme-preview-radio-box > .theme-preview-container > .theme-preview-terminal')).toBeChecked();
     await this.openProfileTerminalThemeOld();
+    await expect(this.page.locator('div:nth-child(1) > .theme-preview-radio-box > .theme-preview-container > .theme-preview-terminal')).toBeChecked();
     await this.openProfileSave();
     return new SettingsPage(this.page);
   }
