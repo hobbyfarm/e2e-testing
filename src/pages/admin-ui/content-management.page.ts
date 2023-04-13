@@ -1,8 +1,8 @@
 import { Locator, Page, expect } from '@playwright/test';
 
 export class ContentManagementPage {
-  private uniqueString: string = 'e2e-testing';// + Math.random();
-  private newUniqueString = 'e2e-testingNew';// + Math.random();
+  private uniqueString: string = 'e2e-testing' + Math.random();
+  private newUniqueString = 'e2e-testingNew' + Math.random();
   private oldDuration = '1';
   private newDuration = '2';
   readonly page: Page;
@@ -158,7 +158,7 @@ export class ContentManagementPage {
     await this.tabCategory.click();
     await this.buttonAddCategory.click();
     await this.textboxCategory.click();
-    await this.textboxCategory.fill('test'); //Unique?
+    await this.textboxCategory.fill('e2eTest');
     await this.buttonAddTrue.click();
     await this.buttonSave.click();
     await this.page.reload();
@@ -200,7 +200,7 @@ export class ContentManagementPage {
 */
   async contentManagementScenarioDetails(): Promise<ContentManagementPage> {
     await this.openContentManagementScenarios();
-    //await this.openContentManagementNewScenario();
+    await this.openContentManagementNewScenario();
     await this.openContentManagementChangeDetails();
     //await this.openContentManagemetDeleteScenario();
     return new ContentManagementPage(this.page);
@@ -208,7 +208,7 @@ export class ContentManagementPage {
 
   async contentManagementScenarioSteps(): Promise<ContentManagementPage> {
     await this.openContentManagementScenarios();
-    //await this.openContentManagementNewScenario();
+    await this.openContentManagementNewScenario();
     await this.openContentManagementScenarioSteps();
     //await this.openContentManagemetDeleteScenario();
     return new ContentManagementPage(this.page);
@@ -216,7 +216,7 @@ export class ContentManagementPage {
 
   async contentManagementScenarioCategories(): Promise<ContentManagementPage> {
     await this.openContentManagementScenarios();
-    //await this.openContentManagementNewScenario();
+    await this.openContentManagementNewScenario();
     await this.openContentManagementAddCategory();
     await this.openContentManagementSearchCategory();
     await this.openContentManagementDeleteCategory();
@@ -226,7 +226,7 @@ export class ContentManagementPage {
 
   async contentManagementScenarioTags(): Promise<ContentManagementPage> {
     await this.openContentManagementScenarios();
-    //await this.openContentManagementNewScenario();
+    await this.openContentManagementNewScenario();
     await this.openContentManagemetTags();
     //await this.openContentManagemetDeleteScenario();
     return new ContentManagementPage(this.page);
