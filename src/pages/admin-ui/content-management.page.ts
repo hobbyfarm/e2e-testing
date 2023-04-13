@@ -194,10 +194,6 @@ export class ContentManagementPage {
     expect(this.page.getByRole('gridcell', { name: this.uniqueString, exact: true })).toBeHidden();
   }
 
-  //async openContentManagemetDeleteScenario() {
-    //Not possible yet
-  //}
-
   async contentManagementScenarioDetails(): Promise<ContentManagementPage> {
     await this.openContentManagementScenarios();
     await this.openContentManagementNewScenario();
