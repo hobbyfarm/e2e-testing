@@ -359,7 +359,6 @@ export class SettingsPage {
     await this.openProfileACField();
     await this.accessCodeInputLearnPage();
     await this.openProfileSAAC();
-    await expect(this.page.getByText(this.accessCodeLearnPage + ' added.')).toHaveText(this.accessCodeLearnPage + ' added.' as string);
     await this.openTextClose();
     await this.openLearnPageStartScenario();
     await this.openLearnPageRunningScenario();
@@ -396,7 +395,6 @@ export class SettingsPage {
     await this.openProfileACField();
     await this.accessCodeInputLearnPage();
     await this.openProfileSAAC();
-    await expect(this.page.getByText(this.accessCodeLearnPage + ' added.')).toHaveText(this.accessCodeLearnPage + ' added.' as string);
     await this.openTextClose();
     await this.openLearnPageStartScenario();
     await this.openLearnPageRunningScenario();

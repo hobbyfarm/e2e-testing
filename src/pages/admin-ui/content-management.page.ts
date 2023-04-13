@@ -1,10 +1,13 @@
 import { Locator, Page, expect } from '@playwright/test';
+import { BasePage, ScenarioPage, CoursePage } from '.'; //For ScenarioPage and CoursePage
 
-export class ContentManagementPage {
+export class ContentManagementPage extends BasePage {
   private uniqueString: string = 'e2e-testing' + Math.random();
   private newUniqueString = 'e2e-testingNew' + Math.random();
   private oldDuration = '1';
   private newDuration = '2';
+  private scenarioRegex = new RegExp(`Select.*${this.uniqueString}`);
+
   readonly page: Page;
   readonly buttonDelete: Locator;
   readonly buttonDeleteTrue: Locator;
@@ -41,7 +44,8 @@ export class ContentManagementPage {
   readonly saveStep: Locator;
   readonly createNewStep: Locator;
 
-  constructor(page: Page) {
+  constructor(page: Page, username: string) {
+    super(page, username);
     this.page = page;
     this.buttonDelete = page.getByRole('button', { name: 'Delete' });
     this.buttonDeleteTrue = page.getByRole('button', { name: 'Delete', exact: true });
@@ -66,7 +70,7 @@ export class ContentManagementPage {
     this.name = page.getByLabel('Name');
     this.description = page.getByLabel('Description');
     this.keepaliveDuration = page.getByLabel('Keepalive Duration');
-    this.selectScenario = page.getByRole('row', { name: /Select.*e2e-testing/ }).locator('label');
+    this.selectScenario = page.getByRole('row', { name: this.scenarioRegex }).locator('label');
     this.selectStepA = page.getByRole('row', { name: 'Available actions 1 Step 1' }).locator('circle').nth(2);
     this.selectStepB = page.getByRole('row', { name: 'Available actions 1 Step 2' }).locator('svg');
     this.selectStepC = page.getByRole('row', { name: 'Available actions 2 Step 1' }).locator('svg');
@@ -77,6 +81,22 @@ export class ContentManagementPage {
     this.deleteVMSet = page.getByRole('dialog', { name: 'Delete VM Set' }).getByRole('button', { name: 'Delete' });
     this.saveStep = page.getByRole('dialog', { name: 'Edit Step 2 of 2' }).getByRole('button', { name: 'Save' });
     this.createNewStep = page.getByTitle('Create new step at the end');
+  }
+
+  async openNewCourseModalAndSave(courseName: string, description: string, keepaliveDuration: string, pauseDuration: string): Promise<ContentManagementPage> { //For CoursePage
+    const coursePage = new CoursePage(this.page);
+    await coursePage.openNewCourseForm();
+    await coursePage.fillNewCourseForm(courseName, description, keepaliveDuration, pauseDuration);
+    await coursePage.saveNewCourseForm();
+    return new ContentManagementPage(this.page, this.username);
+  }
+
+  async openNewScenarioModalAndSave(scenarioName: string, description: string, keepaliveDuration: string, pauseDuration: string): Promise<ContentManagementPage> { //For ScenarioPage
+    const scenarioPage = new ScenarioPage(this.page);
+    await scenarioPage.openNewScenarioForm();
+    await scenarioPage.fillNewScenarioForm(scenarioName, description, keepaliveDuration, pauseDuration);
+    await scenarioPage.saveNewScenarioForm();
+    return new ContentManagementPage(this.page, this.username);
   }
 
   async openContentManagementScenarios() {
@@ -199,7 +219,7 @@ export class ContentManagementPage {
     await this.openContentManagementNewScenario();
     await this.openContentManagementChangeDetails();
     //await this.openContentManagemetDeleteScenario();
-    return new ContentManagementPage(this.page);
+    return new ContentManagementPage(this.page, this.username);
   }
 
   async contentManagementScenarioSteps(): Promise<ContentManagementPage> {
@@ -207,7 +227,7 @@ export class ContentManagementPage {
     await this.openContentManagementNewScenario();
     await this.openContentManagementScenarioSteps();
     //await this.openContentManagemetDeleteScenario();
-    return new ContentManagementPage(this.page);
+    return new ContentManagementPage(this.page, this.username);
   }
 
   async contentManagementScenarioCategories(): Promise<ContentManagementPage> {
@@ -217,7 +237,7 @@ export class ContentManagementPage {
     await this.openContentManagementSearchCategory();
     await this.openContentManagementDeleteCategory();
     //await this.openContentManagemetDeleteScenario();
-    return new ContentManagementPage(this.page);
+    return new ContentManagementPage(this.page, this.username);
   }
 
   async contentManagementScenarioTags(): Promise<ContentManagementPage> {
@@ -225,6 +245,6 @@ export class ContentManagementPage {
     await this.openContentManagementNewScenario();
     await this.openContentManagemetTags();
     //await this.openContentManagemetDeleteScenario();
-    return new ContentManagementPage(this.page);
+    return new ContentManagementPage(this.page, this.username);
   }
 }
