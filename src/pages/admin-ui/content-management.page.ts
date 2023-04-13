@@ -46,7 +46,7 @@ export class ContentManagementPage {
     this.buttonDelete = page.getByRole('button', { name: 'Delete' });
     this.buttonDeleteTrue = page.getByRole('button', { name: 'Delete', exact: true });
     this.buttonSave = page.getByRole('button', { name: 'Save' });
-    this.buttonAddTrue = page.getByRole('button', { name: 'Add', exact: true })
+    this.buttonAddTrue = page.getByRole('button', { name: 'Add', exact: true });
     this.buttonAddCategory = page.getByRole('button', { name: 'Add Category' });
     this.buttonSelectAvailableActions = page.getByRole('button', { name: 'Available actions' }).locator('svg');
     this.buttonNewStep = page.getByRole('button', { name: 'New Step' });
@@ -193,11 +193,11 @@ export class ContentManagementPage {
     await this.buttonSave.click();
     expect(this.page.getByRole('gridcell', { name: this.uniqueString, exact: true })).toBeHidden();
   }
-/*
-  async openContentManagemetDeleteScenario() {
+
+  //async openContentManagemetDeleteScenario() {
     //Not possible yet
-  }
-*/
+  //}
+
   async contentManagementScenarioDetails(): Promise<ContentManagementPage> {
     await this.openContentManagementScenarios();
     await this.openContentManagementNewScenario();

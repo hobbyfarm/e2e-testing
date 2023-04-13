@@ -2,7 +2,7 @@ import { Locator, Page, expect } from '@playwright/test';
 
 export class SettingsPage {
   private accessCode: string = 'e2e-testing' + Math.random();
-  private accessCodeLearnPage: string = 'schulungsentwicklung';
+  private accessCodeLearnPage = 'schulungsentwicklung';
   private fontSize = 14;
   private fontSizeNew = this.fontSize+1;
   readonly page: Page;
@@ -364,7 +364,7 @@ export class SettingsPage {
     await this.openLearnPageStartScenario();
     await this.openLearnPageRunningScenario();
     await this.openLearnPageBeginScenario();
-    for (let i=0;i<6;i++) {
+    for (let i=0; i<6; i++) {
       await this.openButtonNext();
     }
     await this.openButtonPrev();
@@ -401,7 +401,7 @@ export class SettingsPage {
     await this.openLearnPageStartScenario();
     await this.openLearnPageRunningScenario();
     await this.openLearnPageBeginScenario();
-    for (let i=0;i<6;i++) {
+    for (let i=0; i<6; i++) {
       await this.openButtonNext();
     }
     await this.openButtonPrev();
