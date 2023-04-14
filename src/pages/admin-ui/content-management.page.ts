@@ -116,6 +116,10 @@ export class ContentManagementPage extends BasePage {
     await this.page.reload();
   }
 
+  //async openContentManagemetDeleteScenario() {
+  //Not possible yet
+  //}
+
   async openContentManagementChangeDetails() {
     await this.selectScenario.click();
     await this.name.click();
@@ -205,13 +209,16 @@ export class ContentManagementPage extends BasePage {
     await this.tabTags.click();
     await this.buttonAddTag.click();
     await this.labelTagTrue.click();
-    await this.labelTagTrue.fill(this.uniqueString);
+    await this.labelTagTrue.fill('e2eTest');
     await this.buttonAddTrue.click();
     await this.buttonSave.click();
+    await this.page.reload();
+    await this.selectScenario.click();
+    await this.tabTags.click();
     await this.buttonSelectAvailableActions.click();
     await this.buttonDelete.click();
     await this.buttonSave.click();
-    expect(this.page.getByRole('gridcell', { name: this.uniqueString, exact: true })).toBeHidden();
+    expect(this.page.getByRole('gridcell', { name: 'e2eTest', exact: true })).toBeHidden();
   }
 
   async contentManagementScenarioDetails(): Promise<ContentManagementPage> {
