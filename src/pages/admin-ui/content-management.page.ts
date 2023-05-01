@@ -114,6 +114,7 @@ export class ContentManagementPage extends BasePage {
     await this.keepaliveDuration.fill(this.oldDuration);
     await this.buttonSave.click();
     await this.page.reload();
+    return this.uniqueString;
   }
 
   //async openContentManagemetDeleteScenario() {
