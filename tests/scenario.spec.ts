@@ -22,9 +22,9 @@ test('scenario-scheduledEvent', async({ page }) => {
   await settingsPage.startAndTerminateScenario(user as string);
   await settingsPage.startAndFinishScenario(user as string);
   loginPage = await homePage.logout();
-});
 /*
 - add a new scenario in admin-ui/contentManagement
 - add a scheduled event in admin-ui/scheduledEvent
 - start and finish/terminate scenario in ui/settings
 */
+});
