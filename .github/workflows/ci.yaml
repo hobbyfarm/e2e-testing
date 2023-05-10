@@ -19,6 +19,12 @@ jobs:
   build-test:
     name: Build & test
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [chromium]
+        shardIndex: [1, 2, 3, 4, 5]
+        shardTotal: [5]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -29,6 +35,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+      - name: Check NPM package version
+        run: |
+          package_name=$(npm list --json --depth=0 | sed -n 3p | cut -d '"' -f4)
+          new_package_version=$(npm list --json --depth=0 | sed -n 2p | cut -d '"' -f4)
+          if npm show $package_name@$new_package_version version > /dev/null 2>&1 ; then
+            echo Version $package_name@$new_package_version exists
+            exit 1
+          fi
       - name: Setup NPM cache
         id: cache-nodemodules
         uses: actions/cache@v3
@@ -49,7 +63,7 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
       - name: Run tests against local environment
-        run: npx playwright test --workers 4 --trace on --global-timeout 360000
+        run: npx playwright test --trace on --global-timeout 360000 --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} --workers=1
       - name: Run acceptance tests against local environment
         run: npx cucumber-js
       - name: Save pipeline artifacts
