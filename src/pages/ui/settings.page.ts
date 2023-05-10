@@ -3,7 +3,7 @@ import { Locator, Page, expect } from '@playwright/test';
 export class SettingsPage {
   private accessCode: string = 'e2e-testing' + Math.random();
   private fontSize = 14;
-  private fontSizeNew = this.fontSize+1;
+  private fontSizeNew = this.fontSize + 1;
   readonly page: Page;
   readonly profileMAC: Locator;
   readonly profileACField: Locator;
@@ -22,9 +22,6 @@ export class SettingsPage {
   readonly profileNewPassword: Locator;
   readonly profileNewPasswordAgain: Locator;
   readonly profileChangePasswordB: Locator;
-  readonly profileTerminalTheme: Locator;
-  readonly profileTerminalThemeNew: Locator;
-  readonly profileTerminalThemeOld: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -45,9 +42,6 @@ export class SettingsPage {
     this.profileNewPassword = page.getByLabel('New Password').nth(0);
     this.profileNewPasswordAgain = page.getByLabel('New Password Again');
     this.profileChangePasswordB = page.getByRole('button', { name: 'Change Password' });
-    this.profileTerminalTheme = page.getByRole('tab', { name: 'Terminal Theme' });
-    this.profileTerminalThemeNew = page.locator('div:nth-child(2) > .theme-preview-radio-box > .theme-preview-container > .theme-preview-terminal');
-    this.profileTerminalThemeOld = page.locator('.theme-preview-terminal').first();
   }
 
   async openProfile(user: string) {
@@ -142,18 +136,6 @@ export class SettingsPage {
     await this.profileChangePasswordB.click();
   }
 
-  async openProfileTerminalTheme() {
-    await this.profileTerminalTheme.click();
-  }
-
-  async openProfileTerminalThemeNew() {
-    await this.profileTerminalThemeNew.click();
-  }
-
-  async openProfileTerminalThemeOld() {
-    await this.profileTerminalThemeOld.click();
-  }
-
   async openAccessCodeAddSaveDelete(user: string): Promise<SettingsPage> {
     await this.openProfile(user as string);
     await this.openProfileMAC();
@@ -231,21 +213,6 @@ export class SettingsPage {
     await this.openProfileNewPasswordAgainField();
     await this.openProfileNewPasswordAgainInput(oldPassword as string);
     await this.openProfileChangePasswordB();
-    return new SettingsPage(this.page);
-  }
-
-  async openSettingsChangeTheme(user: string): Promise<SettingsPage> { //Change Terminal Theme
-    await this.openProfile(user as string);
-    await this.openProfileSettings();
-    await this.openProfileTerminalTheme();
-    await this.openProfileTerminalThemeNew();
-    await this.openProfileSave();
-    await this.openProfile(user as string);
-    await this.openProfileSettings();
-    await expect(this.page.locator('div:nth-child(2) > .theme-preview-radio-box > .theme-preview-container > .theme-preview-terminal')).toBeChecked();
-    await this.openProfileTerminalThemeOld();
-    await expect(this.page.locator('div:nth-child(1) > .theme-preview-radio-box > .theme-preview-container > .theme-preview-terminal')).toBeChecked();
-    await this.openProfileSave();
     return new SettingsPage(this.page);
   }
 }

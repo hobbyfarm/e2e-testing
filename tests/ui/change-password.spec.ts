@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage  as UILoginPage } from '../src/pages/ui';
-import { SettingsPage } from '../src/pages/ui';
+import { LoginPage  as UILoginPage } from '../../src/pages/ui';
+import { SettingsPage } from '../../src/pages/ui';
 const user = process.env.HOBBYFARM_ADMIN_UI_USR;
 const oldPassword = process.env.HOBBYFARM_ADMIN_UI_PWD;
 const newPassword = process.env.HOBBYFARM_ADMIN_UI_PWD_NEW;

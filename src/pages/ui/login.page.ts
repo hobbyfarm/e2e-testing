@@ -1,6 +1,9 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { HomePage } from '.';
 
+/**
+ * Login page is a single page.
+ */
 export class LoginPage {
   readonly page: Page;
   readonly emailAddressInput: Locator;
