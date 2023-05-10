@@ -49,7 +49,7 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
       - name: Run tests against local environment
-        run: npx playwright test --trace on --global-timeout 360000
+        run: npx playwright test --workers 4 --trace on --global-timeout 360000
       - name: Run acceptance tests against local environment
         run: npx cucumber-js
       - name: Save pipeline artifacts
