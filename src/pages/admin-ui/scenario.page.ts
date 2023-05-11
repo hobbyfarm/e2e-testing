@@ -22,7 +22,7 @@ export class ScenarioPage extends BasePage {
     this.pauseDurationInput = page.getByLabel('Pause Duration');
   }
 
-  async openNewScenarioForm (): Promise<ScenarioPage> {
+  async openNewScenarioForm(): Promise<ScenarioPage> {
     await this.newScenarioButton.click();
     return this;
   }

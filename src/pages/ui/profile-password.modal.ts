@@ -26,6 +26,6 @@ export class ProfilePasswordModal {
     await this.newPasswordConfirmationInput.click();
     await this.newPasswordConfirmationInput.fill(newPassword);
     await this.saveButton.click();
-    await this.confirmationNotification.waitFor({state: 'hidden'});
+    await this.confirmationNotification.waitFor({ state: 'hidden' });
   }
 }

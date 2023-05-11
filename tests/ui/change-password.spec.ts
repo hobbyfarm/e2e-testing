@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
 import { UiFlow } from './ui.flow';
 
-test('Change profile password', async({ page }) => {
+test('Change profile password', async ({ page }) => {
   let homePage = await UiFlow.login(page);
   const loginPage = await homePage.changePassword(process.env.HOBBYFARM_ADMIN_UI_PWD as string);
   // logs in again to validate the password change

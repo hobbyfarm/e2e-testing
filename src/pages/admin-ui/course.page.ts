@@ -32,12 +32,12 @@ export class CoursePage extends BasePage {
     this.creationNotification = page.getByText('Course created');
   }
 
-  async openNewCourseForm (): Promise<CoursePage> {
+  async openNewCourseForm(): Promise<CoursePage> {
     await this.newCourseButton.click();
     return this;
   }
 
-  async fillNewCourseForm (courseName: string, description: string, keepaliveduration: string, pauseduration: string): Promise<CoursePage> {
+  async fillNewCourseForm(courseName: string, description: string, keepaliveduration: string, pauseduration: string): Promise<CoursePage> {
     await this.nameInput.fill(courseName);
     await this.descriptionInput.fill(description);
     await this.keepAliveDurationInput.fill(keepaliveduration);
@@ -49,7 +49,7 @@ export class CoursePage extends BasePage {
 
   async saveNewCourseForm(): Promise<CoursePage> {
     await this.saveButton.click();
-    await this.creationNotification.waitFor({ state: 'hidden'});
+    await this.creationNotification.waitFor({ state: 'hidden' });
     return this;
   }
 

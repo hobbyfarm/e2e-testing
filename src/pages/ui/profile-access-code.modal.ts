@@ -27,7 +27,7 @@ export class ProfileAccessCodeModal {
     await this.accessCodeInput.click();
     await this.accessCodeInput.fill(accessCode);
     await this.saveButton.click();
-    await this.page.getByText(`${accessCode} added.`).waitFor({state: 'hidden'});
+    await this.page.getByText(`${accessCode} added.`).waitFor({ state: 'hidden' });
     await this.closeButton.click();
   }
 
@@ -36,7 +36,7 @@ export class ProfileAccessCodeModal {
     await this.accessCodeInput.click();
     await this.accessCodeInput.fill(accessCode);
     await this.saveAndActivateButton.click();
-    await this.page.getByText(`${accessCode} added.`).waitFor({state: 'hidden'});
+    await this.page.getByText(`${accessCode} added.`).waitFor({ state: 'hidden' });
     await this.closeButton.click();
   }
 

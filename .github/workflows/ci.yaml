@@ -29,14 +29,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: Check NPM package version
-        run: |
-          package_name=$(npm list --json --depth=0 | sed -n 3p | cut -d '"' -f4)
-          new_package_version=$(npm list --json --depth=0 | sed -n 2p | cut -d '"' -f4)
-          if npm show $package_name@$new_package_version version > /dev/null 2>&1 ; then
-            echo Version $package_name@$new_package_version exists
-            exit 1
-          fi
       - name: Setup NPM cache
         id: cache-nodemodules
         uses: actions/cache@v3
@@ -47,6 +39,14 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install NPM packages
         run: npm install
+      - name: Check NPM package version
+        run: |
+          package_name=$(npm list --json --depth=0 | sed -n 3p | cut -d '"' -f4)
+          new_package_version=$(npm list --json --depth=0 | sed -n 2p | cut -d '"' -f4)
+          if npm show $package_name@$new_package_version version > /dev/null 2>&1 ; then
+            echo Version $package_name@$new_package_version exists
+            exit 1
+          fi
       # TODO: scan code with SonarCloud
       - name: Install k3d
         run: curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
