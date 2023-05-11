@@ -23,7 +23,7 @@ export class UserAuthStepDefinition extends BaseStepDefinition {
     this.sessionContext.current = homePage;
   }
 
-  @then(/I should be redirected to the UI home page/)
+  @then(/I should be redirected to the UI home page/, 'UI')
   public thenHomePageIsDisplayed(): void {
     expect(this.sessionContext.current).toBeInstanceOf(HomePage);
   }
