@@ -1,6 +1,4 @@
 # purpose: execute every night the test suite on a given environment
-# images:
-#   - https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
 
 name: Nightly
 
@@ -52,6 +50,8 @@ jobs:
       HOBBYFARM_ADMIN_UI_URL: ${{ secrets.STAGING_ADMIN_UI_URL }}
       HOBBYFARM_ADMIN_UI_USR: ${{ secrets.STAGING_ADMIN_UI_USR }}
       HOBBYFARM_ADMIN_UI_PWD: ${{ secrets.STAGING_ADMIN_UI_PWD }}
+      HOBBYFARM_ADMIN_UI_VERSION: ${{ vars.STAGING_ADMIN_UI_VERSION }}
       HOBBYFARM_UI_HEADER_TITLE: ${{ vars.STAGING_UI_HEADER_TITLE }}
       HOBBYFARM_UI_URL: ${{ secrets.STAGING_UI_URL }}
+      HOBBYFARM_UI_VERSION: ${{ vars.STAGING_UI_VERSION }}
       HOBBYFARM_GARGANTUA_URL: ${{ secrets.STAGING_GARGANTUA_URL }}

@@ -75,8 +75,10 @@ jobs:
       HOBBYFARM_ADMIN_UI_URL: https://admin.hf.local
       HOBBYFARM_ADMIN_UI_USR: admin
       HOBBYFARM_ADMIN_UI_PWD: admin
+      HOBBYFARM_ADMIN_UI_VERSION: 2.0.8
       HOBBYFARM_UI_HEADER_TITLE: Rancher HobbyFarm
       HOBBYFARM_UI_URL: https://learn.hf.local
+      HOBBYFARM_UI_VERSION: 2.0.8
       HOBBYFARM_GARGANTUA_URL: https://api.hf.local
       # looks like a secret but it is a generic value (and we can't access secrets on a pull-request event, see https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#accessing-secrets)
       HOBBYFARM_ADMIN_UI_HASHPWD: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
