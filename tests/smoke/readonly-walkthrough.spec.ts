@@ -10,7 +10,7 @@ test('Admin UI walkthrough readonly smoke test', async ({ page }) => {
   await homePage.displayLogoutModal();
   homePage = await homePage.openHomePage();
   let scheduledEventPage: ScheduledEventPage;
-  if (process.env.HOBBYFARM_ADMIN_UI_VERSION as string >= '2.0.7') {
+  if (process.env.HOBBYFARM_ADMIN_UI_VERSION as string >= '2.0.3') {
     const dashboardPage = await homePage.openDashboardPage();
     scheduledEventPage = await dashboardPage.openScheduledEventPage();
   } else {
