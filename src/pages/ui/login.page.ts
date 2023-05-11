@@ -1,6 +1,9 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { HomePage } from '.';
 
+/**
+ * Login page is a single page.
+ */
 export class LoginPage {
   readonly page: Page;
   readonly emailAddressInput: Locator;
@@ -14,10 +17,9 @@ export class LoginPage {
     this.loginButton = page.getByRole('button', { name: 'LOGIN' });
   }
 
-  async goto(url: string) {
+  async goto(url: string, expertedUrlParams?: string) {
     await this.page.goto(url);
-    // @since chart release 2.0.8 (hobbyfarm/admin-ui:v2.0.3)
-    await expect(this.page).toHaveURL(`${url}/login?returnUrl=%2Fapp%2Fhome`);
+    await expect(this.page).toHaveURL(`${url}${expertedUrlParams}`);
   }
 
   async fillCredentialsAndSubmit(headerTitle: string, emailAddress: string, password: string): Promise<HomePage> {

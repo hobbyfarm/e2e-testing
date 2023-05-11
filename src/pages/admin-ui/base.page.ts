@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 import { ConfigurationPage, ContentManagementPage, DashboardPage, HomePage, LoginPage, ScheduledEventPage, UserPage } from '.';
 
 export class BasePage {
@@ -64,16 +64,24 @@ export class BasePage {
     return new ConfigurationPage(this.page, this.username);
   }
 
-  async displayAboutModal() {
+  async displayAboutModal(): Promise<BasePage> {
     await this.profileMenuLink.click();
     await this.aboutModalLink.click();
     await this.closeButton.click();
+    return this;
   }
 
-  async displayLogoutModal() {
+  async displayLogoutModal(): Promise<BasePage> {
     await this.profileMenuLink.click();
     await this.logoutModalLink.click();
     await this.cancelButton.click();
+    return this;
+  }
+
+  async waitForTopLevelMenu(): Promise<BasePage> {
+    await expect(this.homeMenuLink).toBeVisible();
+    await expect(this.contentManagementMenuLink).toBeVisible();
+    return this;
   }
 
   async logout(): Promise<LoginPage> {
