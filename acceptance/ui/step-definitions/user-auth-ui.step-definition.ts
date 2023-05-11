@@ -2,7 +2,7 @@ import { expect } from '@playwright/test';
 import { binding, given, then, when } from 'cucumber-tsflow';
 import { BaseStepDefinition } from '../../../src/execution-flow/base.step-definition';
 import { SessionContext } from '../../../src/execution-flow/session.context';
-import {  BasePage, HomePage, LoginPage } from '../../../src/pages/ui';
+import { BasePage, HomePage, LoginPage } from '../../../src/pages/ui';
 
 @binding([SessionContext])
 export class UserAuthStepDefinition extends BaseStepDefinition {
