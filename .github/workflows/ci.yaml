@@ -75,7 +75,6 @@ jobs:
       HOBBYFARM_ADMIN_UI_URL: https://admin.hf.local
       HOBBYFARM_ADMIN_UI_USR: admin
       HOBBYFARM_ADMIN_UI_PWD: admin
-      HOBBYFARM_ADMIN_UI_PWD_NEW: admin
       HOBBYFARM_UI_HEADER_TITLE: Rancher HobbyFarm
       HOBBYFARM_UI_URL: https://learn.hf.local
       HOBBYFARM_GARGANTUA_URL: https://api.hf.local
