@@ -15,6 +15,7 @@ export class CoursePage extends BasePage {
   private readonly keepVMCheckbox: Locator;
   private readonly deleteButton: Locator;
   private readonly deleteDialog: Locator;
+  private readonly creationNotification: Locator;
 
   constructor(page: Page, username: string) {
     super(page, username);
@@ -28,6 +29,7 @@ export class CoursePage extends BasePage {
     this.keepVMCheckbox = page.getByText('Keep VM');
     this.deleteButton = page.getByRole('button', { name: 'Delete' });
     this.deleteDialog = page.getByRole('dialog', { name: 'Delete Confirmation' });
+    this.creationNotification = page.getByText('Course created');
   }
 
   async openNewCourseForm (): Promise<CoursePage> {
@@ -47,6 +49,7 @@ export class CoursePage extends BasePage {
 
   async saveNewCourseForm(): Promise<CoursePage> {
     await this.saveButton.click();
+    await this.creationNotification.waitFor({ state: 'hidden'});
     return this;
   }
 
