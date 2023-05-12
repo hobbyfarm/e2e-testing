@@ -4,7 +4,7 @@ import { AuthResource } from '../../src/resources/gargantua';
 import { UiFlow } from '../ui/ui.flow';
 import { AdminUiFlow } from '../admin-ui/admin-ui.flow';
 
-test('Admin UI walkthrough readonly smoke test', async ({ page }) => {
+test('Admin Web UI walkthrough readonly smoke test', async ({ page }) => {
   let homePage = await AdminUiFlow.login(page);
   await homePage.displayAboutModal();
   await homePage.displayLogoutModal();
@@ -24,7 +24,7 @@ test('Admin UI walkthrough readonly smoke test', async ({ page }) => {
   await configurationPage.logout();
 });
 
-test('UI walkthrough readonly smoke test', async ({ page }) => {
+test('Web UI walkthrough readonly smoke test', async ({ page }) => {
   const homePage = await UiFlow.login(page);
   await homePage.displayAboutModal();
   await homePage.displayLogoutModal();
