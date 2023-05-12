@@ -45,7 +45,7 @@ jobs:
           package_name=$(npm list --json --depth=0 | sed -n 3p | cut -d '"' -f4)
           new_package_version=$(npm list --json --depth=0 | sed -n 2p | cut -d '"' -f4)
           if npm show $package_name@$new_package_version version > /dev/null 2>&1 ; then
-            echo Version $package_name@$new_package_version exists
+            echo Version $package_name@$new_package_version exists. Please increase the version in package.json file.
             exit 1
           fi
       # TODO: scan code with SonarCloud
