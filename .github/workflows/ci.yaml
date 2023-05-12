@@ -40,6 +40,7 @@ jobs:
       - name: Install NPM packages
         run: npm install
       - name: Check NPM package version
+        if: github.event_name == 'pull_request' && github.event.action != 'closed'
         run: |
           package_name=$(npm list --json --depth=0 | sed -n 3p | cut -d '"' -f4)
           new_package_version=$(npm list --json --depth=0 | sed -n 2p | cut -d '"' -f4)

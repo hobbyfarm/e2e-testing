@@ -71,3 +71,7 @@ You can also run specific linters:
 ```bash
 npx eslint .
 ```
+
+## How to operate
+
+* [pipelines](docs/pipelines.md)
