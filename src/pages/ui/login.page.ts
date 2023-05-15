@@ -19,7 +19,7 @@ export class LoginPage {
 
   async goto(url: string, expectedUrlParams?: string) {
     await this.page.goto(url);
-    await expect(this.page).toHaveURL(`${url}/${expectedUrlParams}`);
+    await expect(this.page).toHaveURL(`${url}${expectedUrlParams}`);
   }
 
   async fillCredentialsAndSubmit(headerTitle: string, emailAddress: string, password: string): Promise<HomePage> {
