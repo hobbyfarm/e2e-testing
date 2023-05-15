@@ -3,6 +3,7 @@ import { binding, given, then, when } from 'cucumber-tsflow';
 import { BaseStepDefinition } from '../../../src/execution-flow/base.step-definition';
 import { SessionContext } from '../../../src/execution-flow/session.context';
 import { BasePage, HomePage, LoginPage } from '../../../src/pages/admin-ui';
+import { AdminUiFlow } from '../../../tests/admin-ui/admin-ui.flow';
 
 @binding([SessionContext])
 export class UserAuthStepDefinition extends BaseStepDefinition {
@@ -12,8 +13,7 @@ export class UserAuthStepDefinition extends BaseStepDefinition {
 
   @given(/I am on the Admin UI login page/)
   public async givenLoginPageIsOpened(): Promise<void> {
-    const loginPage = new LoginPage(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
-    await loginPage.goto(process.env.HOBBYFARM_ADMIN_UI_URL as string);
+    const loginPage = await AdminUiFlow.openLoginPage(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
     this.sessionContext.current = loginPage;
   }
 
@@ -37,8 +37,7 @@ export class UserAuthStepDefinition extends BaseStepDefinition {
 
   @when(/the user is logged in the Admin UI/)
   public async givenUserIsLoggedIn(): Promise<void> {
-    const loginPage = new LoginPage(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
-    await loginPage.goto(process.env.HOBBYFARM_ADMIN_UI_URL as string);
+    const loginPage = await AdminUiFlow.openLoginPage(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
     await loginPage.fillCredentials(process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
     const homePage = await loginPage.submit(process.env.HOBBYFARM_ADMIN_UI_USR as string);
     this.sessionContext.current = homePage;
