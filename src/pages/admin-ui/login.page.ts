@@ -1,6 +1,9 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { HomePage } from '.';
 
+/**
+ * Login page is a single page.
+ */
 export class LoginPage {
   readonly page: Page;
   readonly emailAddressInput: Locator;
@@ -19,19 +22,22 @@ export class LoginPage {
     await expect(this.page).toHaveURL(`${url}/login`);
   }
 
-  async fillCredentials(emailAddress: string, password: string): Promise<LoginPage> {
-    await this.emailAddressInput.fill(emailAddress);
+  async fillCredentials(username: string, password: string): Promise<LoginPage> {
+    await this.emailAddressInput.fill(username);
     await this.passwordInput.fill(password);
     return this;
   }
 
-  async submit(emailAddress: string): Promise<HomePage> {
+  async submit(username: string): Promise<HomePage> {
     await this.loginButton.click();
-    return new HomePage(this.page, emailAddress);
+    const homePage = new HomePage(this.page, username);
+    await homePage.waitForTopLevelMenu();
+    await homePage.openHomePage();
+    return homePage;
   }
 
-  async fillCredentialsAndSubmit(emailAddress: string, password: string): Promise<HomePage> {
-    await this.fillCredentials(emailAddress, password);
-    return await this.submit(emailAddress);
+  async fillCredentialsAndSubmit(username: string, password: string): Promise<HomePage> {
+    await this.fillCredentials(username, password);
+    return await this.submit(username);
   }
 }

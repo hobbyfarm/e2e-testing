@@ -1,8 +1,4 @@
 # purpose: run Continuous Integration (build, unit test, lint, scan)
-# actions:
-#   - https://github.com/marketplace/actions/megalinter
-# images:
-#   - https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
 
 name: CI
 
@@ -20,8 +16,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build
+  build-test:
+    name: Build & test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -43,13 +39,15 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install NPM packages
         run: npm install
-      - name: Lint codebase
-        # hint: https://github.com/marketplace/actions/super-linter was too outdated and complicated to configure
-        uses: oxsecurity/megalinter@v6
-        env:
-          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check NPM package version
+        if: github.event_name == 'pull_request' && github.event.action != 'closed'
+        run: |
+          package_name=$(npm list --json --depth=0 | sed -n 3p | cut -d '"' -f4)
+          new_package_version=$(npm list --json --depth=0 | sed -n 2p | cut -d '"' -f4)
+          if npm show $package_name@$new_package_version version > /dev/null 2>&1 ; then
+            echo Version $package_name@$new_package_version exists. Please increase the version in package.json file.
+            exit 1
+          fi
       # TODO: scan code with SonarCloud
       - name: Install k3d
         run: curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
@@ -60,30 +58,53 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
       - name: Run tests against local environment
-        run: npx playwright test --trace on --global-timeout 360000
+        run: npx playwright test --trace on --global-timeout 360000 --project=chromium --workers=1
       - name: Run acceptance tests against local environment
         run: npx cucumber-js
       - name: Save pipeline artifacts
         uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: code-quality-reports
+          name: test-reports
           path: |
             playwright-report/
-            megalinter-reports/
-            mega-linter.log
             cucumber-report.html
           retention-days: 30
       - name: Clean-up containers
         run: scripts/delete_kubernetes_cluster.sh
-      # TODO: publich tests as NPM package (GitHub registry)
     env:
       HOBBYFARM_ADMIN_UI_URL: https://admin.hf.local
       HOBBYFARM_ADMIN_UI_USR: admin
       HOBBYFARM_ADMIN_UI_PWD: admin
-      HOBBYFARM_ADMIN_UI_PWD_NEW: admin
+      HOBBYFARM_ADMIN_UI_VERSION: 2.0.3
       HOBBYFARM_UI_HEADER_TITLE: Rancher HobbyFarm
       HOBBYFARM_UI_URL: https://learn.hf.local
+      HOBBYFARM_UI_VERSION: 2.0.2
       HOBBYFARM_GARGANTUA_URL: https://api.hf.local
       # looks like a secret but it is a generic value (and we can't access secrets on a pull-request event, see https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#accessing-secrets)
       HOBBYFARM_ADMIN_UI_HASHPWD: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          # full git history is needed to get a proper list of changed files
+          fetch-depth: 0
+      - name: Lint codebase
+        # hint: https://github.com/marketplace/actions/super-linter was too outdated and complicated to configure
+        uses: oxsecurity/megalinter@v6
+        env:
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Save pipeline artifacts
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: lint-reports
+          path: |
+            megalinter-reports/
+            mega-linter.log
+          retention-days: 30

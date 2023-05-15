@@ -1,33 +1,35 @@
 import { test } from '@playwright/test';
-import { LoginPage as AdminUILoginPage } from '../../src/pages/admin-ui';
-import { LoginPage as UILoginPage } from '../../src/pages/ui';
+import { ScheduledEventPage } from '../../src/pages/admin-ui';
 import { AuthResource } from '../../src/resources/gargantua';
+import { UiFlow } from '../ui/ui.flow';
+import { AdminUiFlow } from '../admin-ui/admin-ui.flow';
 
-test('Admin UI walkthrough readonly smoke test', async ({ page }) => {
-  let loginPage = new AdminUILoginPage(page);
-  await loginPage.goto(process.env.HOBBYFARM_ADMIN_UI_URL as string);
-  let homePage = await loginPage.fillCredentialsAndSubmit(process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
+test('Admin Web UI walkthrough readonly smoke test', async ({ page }) => {
+  let homePage = await AdminUiFlow.login(page);
   await homePage.displayAboutModal();
   await homePage.displayLogoutModal();
   homePage = await homePage.openHomePage();
-  const dashboardPage = await homePage.openDashboardPage();
-  const scheduledEventPage = await dashboardPage.openScheduledEventPage();
+  let scheduledEventPage: ScheduledEventPage;
+  if (process.env.HOBBYFARM_ADMIN_UI_VERSION as string >= '2.0.3') {
+    const dashboardPage = await homePage.openDashboardPage();
+    scheduledEventPage = await dashboardPage.openScheduledEventPage();
+  } else {
+    scheduledEventPage = await homePage.openScheduledEventPage();
+  }
   const contentManagementPage = await scheduledEventPage.openContentManagementPage();
   const userPage = await contentManagementPage.openUserPage();
   const configurationPage = await userPage.openConfigurationPage();
   await configurationPage.openNewEnvironmentModal();
   await configurationPage.cancelModal();
-  loginPage = await configurationPage.logout();
+  await configurationPage.logout();
 });
 
-test('UI walkthrough readonly smoke test', async ({ page }) => {
-  let loginPage = new UILoginPage(page);
-  await loginPage.goto(process.env.HOBBYFARM_UI_URL as string);
-  const homePage = await loginPage.fillCredentialsAndSubmit(process.env.HOBBYFARM_UI_HEADER_TITLE as string, process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
+test('Web UI walkthrough readonly smoke test', async ({ page }) => {
+  const homePage = await UiFlow.login(page);
   await homePage.displayAboutModal();
   await homePage.displayLogoutModal();
   await homePage.openHomePage();
-  loginPage = await homePage.logout();
+  await homePage.logout();
 });
 
 test('Gargantua walkthrough readonly smoke test', async ({ request }) => {

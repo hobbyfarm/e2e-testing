@@ -1,6 +1,9 @@
 import { Locator, Page } from '@playwright/test';
 import { BasePage } from '.';
 
+/**
+ * Configuration page is a top level page. It contains three subpages: Environments, VM Templates, Roles.
+ */
 export class ConfigurationPage extends BasePage {
   private readonly environmentMenuLink: Locator;
   private readonly newButtonLink: Locator;
