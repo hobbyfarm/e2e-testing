@@ -9,6 +9,7 @@ on:
 
 jobs:
   staging-testing:
+    name: Staging testing
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
