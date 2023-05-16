@@ -24,15 +24,17 @@ export class HomePage extends BasePage {
 
   async StartScenario(eventName: string): Promise<HomePage> {
     await this.headingTitle.click();
-    if (!(await this.noScenarioNotification.isVisible())) {
+    if (await this.noScenarioNotification.isVisible()) {
+      // hack: should refresh by itself
+      await this.page.waitForTimeout(10000);
       await this.page.locator('body').press('F5');
+      await this.noScenarioNotification.waitFor({state: 'hidden'});
     }
-    // await page.locator('home-component div').filter({ hasText: 'DevOpsDays Geneva \'23 Live workshop Start Scenario' }).nth(1).click();
     await this.startScenarioButton.click();
     await this.vmProvisioningNotification.click();
-    await this.vmProvisioningNotification.waitFor({ state: 'hidden' });
+    await this.vmProvisioningNotification.waitFor({ state: 'hidden', timeout: 36000000}); // 10 minutes
     await this.page.getByRole('cell').first().click();
-    await this.page.getByRole('row').first().getByRole('cell', { name: 'running' }).click();
+    await this.page.getByText('running').first().click();
     await this.beginScenarioButton.click();
     await this.finishButton.click();
     await this.page.getByRole('heading', { name: 'Are you sure you want to finish?' }).click();

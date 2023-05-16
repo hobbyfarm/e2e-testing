@@ -21,8 +21,10 @@ export class ScheduledEventPage extends BasePage {
     const eventModal = new ScheduledEventModal(this.page);
     await eventModal.create(event);
     await this.page.getByRole('row', { name: event.name }).click();
-    if (isNow) {
-      // makes sure the event is set to In Progress
+    if (isNow) { // makes sure the event is set to In Progress
+      // hack: the page should refresh itself
+      await this.page.waitForTimeout(10000);
+      await this.page.locator('body').press('F5');
       await this.page.getByRole('gridcell', { name: 'In Progress' }).click();
     }
     return this;
@@ -36,6 +38,7 @@ export class ScheduledEventPage extends BasePage {
     await this.page.getByRole('heading', { name: 'Confirm Delete' }).click();
     await this.page.getByRole('button', { name: 'Delete' }).click();
     await this.page.locator('button.close').locator('svg').click();
+    await this.headingTitle.click();
     // hack: the page should refresh itself
     await this.page.locator('body').press('F5');
     await this.page.getByRole('gridcell', { name: eventName }).waitFor({state: 'hidden'});
