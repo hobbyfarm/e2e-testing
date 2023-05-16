@@ -17,9 +17,9 @@ export class LoginPage {
     this.loginButton = page.getByRole('button', { name: 'LOGIN' });
   }
 
-  async goto(url: string, expectedUrlParams?: string) {
+  async goto(url: string, expertedUrlParams?: string) {
     await this.page.goto(url);
-    await expect(this.page).toHaveURL(`${url}${expectedUrlParams}`);
+    await expect(this.page).toHaveURL(`${url}${expertedUrlParams}`);
   }
 
   async fillCredentialsAndSubmit(headerTitle: string, emailAddress: string, password: string): Promise<HomePage> {

@@ -3,6 +3,7 @@ import { binding, given, then, when } from 'cucumber-tsflow';
 import { BaseStepDefinition } from '../../../src/execution-flow/base.step-definition';
 import { SessionContext } from '../../../src/execution-flow/session.context';
 import { BasePage, HomePage, LoginPage } from '../../../src/pages/ui';
+import { UiFlow } from '../../../tests/ui/ui.flow';
 
 @binding([SessionContext])
 export class UserAuthStepDefinition extends BaseStepDefinition {
@@ -12,8 +13,7 @@ export class UserAuthStepDefinition extends BaseStepDefinition {
 
   @given(/I am on the UI login page/, 'UI', 100000)
   public async givenLoginPageIsOpened(): Promise<void> {
-    const loginPage = new LoginPage(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
-    await loginPage.goto(process.env.HOBBYFARM_UI_URL as string, '/login?returnUrl=%2Fapp%2Fhome');
+    const loginPage = await UiFlow.login(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
     this.sessionContext.current = loginPage;
   }
 
