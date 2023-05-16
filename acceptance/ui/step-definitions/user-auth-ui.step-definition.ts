@@ -13,7 +13,8 @@ export class UserAuthStepDefinition extends BaseStepDefinition {
 
   @given(/I am on the UI login page/, 'UI', 100000)
   public async givenLoginPageIsOpened(): Promise<void> {
-    const loginPage = await UiFlow.login(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
+    const loginPage = new LoginPage(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
+    await loginPage.goto(process.env.HOBBYFARM_UI_URL as string, 'login?returnUrl=%2Fapp%2Fhome');
     this.sessionContext.current = loginPage;
   }
 
