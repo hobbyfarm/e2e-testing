@@ -31,7 +31,7 @@ export class UserAuthStepDefinition extends BaseStepDefinition {
 
   @when(/the UI user is logged in the UI/, 'UI', 10000)
   public async givenUserIsLoggedIn(): Promise<void> {
-    const homePage = await UiFlow.login(this.sessionContext.page ?? (() => { throw new Error('page is null'); })()); 
+    const homePage = await UiFlow.login(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
     this.sessionContext.current = homePage;
   }
 
