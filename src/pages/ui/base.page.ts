@@ -2,7 +2,7 @@ import { Locator, Page } from '@playwright/test';
 import { HomePage, LoginPage, ProfileAccessCodeModal, ProfilePasswordModal, ProfileSettingModal } from '.';
 
 export class BasePage {
-  private readonly page: Page;
+  protected readonly page: Page;
   private readonly headerTitle: string;
   private readonly username: string;
   private readonly homeMenuLink: Locator;

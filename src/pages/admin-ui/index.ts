@@ -8,3 +8,4 @@ export * from './dashboard.page';
 export * from './scheduled-event.page';
 export * from './scenario.page';
 export * from './user.page';
+export * from './scheduled-event.modal';

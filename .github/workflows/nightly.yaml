@@ -35,7 +35,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests against Staging environment
-        run: npx playwright test --trace on
+        run: npx playwright test --trace on --grep-invert @notci
       - name: Run acceptance tests against Staging environment
         run: npx cucumber-js
       - name: Save pipeline artifacts
