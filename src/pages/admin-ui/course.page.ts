@@ -5,31 +5,31 @@ import { BasePage } from '.';
  * Course page is a sub-page of Content Management page.
  */
 export class CoursePage extends BasePage {
-  private readonly newCourseButton: Locator;
-  private readonly saveButton: Locator;
-  private readonly nameInput: Locator;
+  private readonly creationNotification: Locator;
   private readonly descriptionInput: Locator;
-  private readonly keepAliveDurationInput: Locator;
-  private readonly pauseDurationInput: Locator;
-  private readonly pauseableCheckbox: Locator;
-  private readonly keepVMCheckbox: Locator;
   private readonly deleteButton: Locator;
   private readonly deleteDialog: Locator;
-  private readonly creationNotification: Locator;
+  private readonly keepAliveDurationInput: Locator;
+  private readonly keepVMCheckbox: Locator;
+  private readonly nameInput: Locator;
+  private readonly newCourseButton: Locator;
+  private readonly pauseableCheckbox: Locator;
+  private readonly pauseDurationInput: Locator;
+  private readonly saveButton: Locator;
 
   constructor(page: Page, username: string) {
     super(page, username);
-    this.newCourseButton = page.getByRole('button', { name: 'New Course' });
-    this.saveButton = page.getByRole('button', { name: 'Save' });
-    this.nameInput = page.getByRole('textbox', { name: 'Name' });
-    this.descriptionInput = page.getByRole('textbox', { name: 'Description' });
-    this.keepAliveDurationInput = page.getByLabel('Keepalive Duration');
-    this.pauseDurationInput = page.getByLabel('Pause Duration');
-    this.pauseableCheckbox = page.getByText('Pauseable');
-    this.keepVMCheckbox = page.getByText('Keep VM');
+    this.creationNotification = page.getByText('Course created');
     this.deleteButton = page.getByRole('button', { name: 'Delete' });
     this.deleteDialog = page.getByRole('dialog', { name: 'Delete Confirmation' });
-    this.creationNotification = page.getByText('Course created');
+    this.descriptionInput = page.getByRole('textbox', { name: 'Description' });
+    this.keepAliveDurationInput = page.getByLabel('Keepalive Duration');
+    this.keepVMCheckbox = page.getByText('Keep VM');
+    this.nameInput = page.getByRole('textbox', { name: 'Name' });
+    this.newCourseButton = page.getByRole('button', { name: 'New Course' });
+    this.pauseableCheckbox = page.getByText('Pauseable');
+    this.pauseDurationInput = page.getByLabel('Pause Duration');
+    this.saveButton = page.getByRole('button', { name: 'Save' });
   }
 
   async openNewCourseForm(): Promise<CoursePage> {

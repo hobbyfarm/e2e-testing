@@ -5,21 +5,21 @@ import { Locator, Page } from '@playwright/test';
  */
 export class ProfileAccessCodeModal {
   private readonly page: Page;
-  private readonly addAccessCodeButton: Locator;
   private readonly accessCodeInput: Locator;
-  private readonly saveButton: Locator;
-  private readonly saveAndActivateButton: Locator;
+  private readonly addAccessCodeButton: Locator;
   private readonly closeButton: Locator;
   private readonly deleteButton: Locator;
+  private readonly saveButton: Locator;
+  private readonly saveAndActivateButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.addAccessCodeButton = page.getByRole('button', { name: 'Add Access Code' });
     this.accessCodeInput = page.getByLabel('Access Code', { exact: true });
-    this.saveButton = page.getByRole('button', { name: 'Save', exact: true });
-    this.saveAndActivateButton = page.getByRole('button', { name: 'Save & Activate' });
+    this.addAccessCodeButton = page.getByRole('button', { name: 'Add Access Code' });
     this.closeButton = page.getByText('Close');
     this.deleteButton = page.getByRole('button', { name: 'Delete' });
+    this.saveAndActivateButton = page.getByRole('button', { name: 'Save & Activate' });
+    this.saveButton = page.getByRole('button', { name: 'Save', exact: true });
   }
 
   public async addAccessCode(accessCode: string) {

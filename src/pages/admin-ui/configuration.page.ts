@@ -5,15 +5,15 @@ import { BasePage } from '.';
  * Configuration page is a top level page. It contains three subpages: Environments, VM Templates, Roles.
  */
 export class ConfigurationPage extends BasePage {
+  private readonly cancelButtonLink: Locator;
   private readonly environmentMenuLink: Locator;
   private readonly newButtonLink: Locator;
-  private readonly cancelButtonLink: Locator;
 
   constructor(page: Page, username: string) {
     super(page, username);
+    this.cancelButtonLink = page.getByRole('button', { name: 'Cancel' });
     this.environmentMenuLink = page.getByRole('link', { name: 'Environments' });
     this.newButtonLink = page.getByRole('button', { name: 'New' });
-    this.cancelButtonLink = page.getByRole('button', { name: 'Cancel' });
   }
 
   async openNewEnvironmentModal(): Promise<ConfigurationPage> {

@@ -4,18 +4,18 @@ import { Locator, Page } from '@playwright/test';
  * Profile password modal.
  */
 export class ProfilePasswordModal {
-  private readonly saveButton: Locator;
-  private readonly oldPasswordInput: Locator;
-  private readonly newPasswordInput: Locator;
-  private readonly newPasswordConfirmationInput: Locator;
   private readonly confirmationNotification: Locator;
+  private readonly newPasswordConfirmationInput: Locator;
+  private readonly newPasswordInput: Locator;
+  private readonly oldPasswordInput: Locator;
+  private readonly saveButton: Locator;
 
   constructor(page: Page) {
-    this.saveButton = page.getByRole('button', { name: 'Change Password' });
-    this.oldPasswordInput = page.getByLabel('Old Password');
-    this.newPasswordInput = page.getByLabel('New Password', { exact: true });
-    this.newPasswordConfirmationInput = page.getByLabel('New Password Again');
     this.confirmationNotification = page.getByText('password changed. Logging you out...');
+    this.newPasswordConfirmationInput = page.getByLabel('New Password Again');
+    this.newPasswordInput = page.getByLabel('New Password', { exact: true });
+    this.oldPasswordInput = page.getByLabel('Old Password');
+    this.saveButton = page.getByRole('button', { name: 'Change Password' });
   }
 
   public async changePassword(currentPassword: string, newPassword: string) {

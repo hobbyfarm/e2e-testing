@@ -3,35 +3,35 @@ import { ConfigurationPage, ContentManagementPage, DashboardPage, HomePage, Logi
 
 export class BasePage {
   protected readonly page: Page;
-  private readonly homeMenuLink: Locator;
-  private readonly dashboardMenuLink: Locator;
-  private readonly scheduledEventMenuLink: Locator;
-  private readonly contentManagementMenuLink: Locator;
-  private readonly userMenuLink: Locator;
-  private readonly configurationMenuLink: Locator;
-  private readonly profileMenuLink: Locator;
-  private readonly aboutModalLink: Locator;
-  private readonly logoutModalLink: Locator;
-  private readonly closeButton: Locator;
-  private readonly cancelButton: Locator;
-  private readonly logoutButton: Locator;
   protected readonly username: string;
+  private readonly aboutModalLink: Locator;
+  private readonly cancelButton: Locator;
+  private readonly closeButton: Locator;
+  private readonly configurationMenuLink: Locator;
+  private readonly contentManagementMenuLink: Locator;
+  private readonly dashboardMenuLink: Locator;
+  private readonly homeMenuLink: Locator;
+  private readonly logoutButton: Locator;
+  private readonly logoutModalLink: Locator;
+  private readonly profileMenuLink: Locator;
+  private readonly scheduledEventMenuLink: Locator;
+  private readonly userMenuLink: Locator;
 
   constructor(page: Page, username: string) {
     this.page = page;
     this.username = username;
-    this.homeMenuLink = page.getByRole('link', { name: 'Home' });
-    this.dashboardMenuLink = page.getByRole('link', { name: 'Dashboards' });
-    this.scheduledEventMenuLink = page.getByRole('link', { name: 'Scheduled Events' });
-    this.contentManagementMenuLink = page.getByRole('link', { name: 'Content Management' });
-    this.userMenuLink = page.getByRole('link', { name: 'Users' });
-    this.configurationMenuLink = page.getByRole('link', { name: 'Configuration' });
-    this.profileMenuLink = page.getByRole('button', { name: username });
     this.aboutModalLink = page.getByRole('menuitem', { name: 'About' });
-    this.closeButton = page.getByRole('button', { name: 'Close' }).locator('svg');
-    this.logoutModalLink = page.getByRole('menuitem', { name: 'Logout' });
     this.cancelButton = page.getByRole('button', { name: 'Cancel' });
+    this.closeButton = page.getByRole('button', { name: 'Close' }).locator('svg');
+    this.configurationMenuLink = page.getByRole('link', { name: 'Configuration' });
+    this.contentManagementMenuLink = page.getByRole('link', { name: 'Content Management' });
+    this.dashboardMenuLink = page.getByRole('link', { name: 'Dashboards' });
+    this.homeMenuLink = page.getByRole('link', { name: 'Home' });
     this.logoutButton = page.getByRole('button', { name: 'Logout' });
+    this.logoutModalLink = page.getByRole('menuitem', { name: 'Logout' });
+    this.profileMenuLink = page.getByRole('button', { name: username });
+    this.scheduledEventMenuLink = page.getByRole('link', { name: 'Scheduled Events' });
+    this.userMenuLink = page.getByRole('link', { name: 'Users' });
   }
 
   async openHomePage(): Promise<HomePage> {

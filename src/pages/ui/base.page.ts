@@ -3,33 +3,33 @@ import { HomePage, LoginPage, ProfileAccessCodeModal, ProfilePasswordModal, Prof
 
 export class BasePage {
   protected readonly page: Page;
-  private readonly headerTitle: string;
-  private readonly username: string;
-  private readonly homeMenuLink: Locator;
-  private readonly profileMenuLink: Locator;
   private readonly aboutModalLink: Locator;
-  private readonly passwordModalLink: Locator;
-  private readonly settingModalLink: Locator;
   private readonly accessCodeModalLink: Locator;
-  private readonly logoutModalLink: Locator;
-  private readonly closeButton: Locator;
   private readonly cancelButton: Locator;
+  private readonly closeButton: Locator;
+  private readonly headerTitle: string;
+  private readonly homeMenuLink: Locator;
   private readonly logoutButton: Locator;
+  private readonly logoutModalLink: Locator;
+  private readonly passwordModalLink: Locator;
+  private readonly profileMenuLink: Locator;
+  private readonly settingModalLink: Locator;
+  private readonly username: string;
 
   constructor(page: Page, headerTitle: string, username: string) {
     this.page = page;
-    this.headerTitle = headerTitle;
-    this.username = username;
-    this.homeMenuLink = page.getByRole('link', { name: headerTitle });
-    this.profileMenuLink = page.getByRole('button', { name: username });
     this.aboutModalLink = page.getByRole('menuitem', { name: 'About' });
-    this.settingModalLink = page.getByRole('menuitem', { name: 'Settings' });
-    this.passwordModalLink = page.getByRole('menuitem', { name: 'Change Password' });
     this.accessCodeModalLink = page.getByRole('menuitem', { name: 'Manage Access Codes' });
-    this.closeButton = page.getByRole('button', { name: 'Close' }).locator('svg');
-    this.logoutModalLink = page.getByRole('menuitem', { name: 'Logout' });
     this.cancelButton = page.getByRole('button', { name: 'Cancel' });
+    this.closeButton = page.getByRole('button', { name: 'Close' }).locator('svg');
+    this.headerTitle = headerTitle;
+    this.homeMenuLink = page.getByRole('link', { name: headerTitle });
     this.logoutButton = page.getByRole('button', { name: 'Logout' });
+    this.logoutModalLink = page.getByRole('menuitem', { name: 'Logout' });
+    this.passwordModalLink = page.getByRole('menuitem', { name: 'Change Password' });
+    this.profileMenuLink = page.getByRole('button', { name: username });
+    this.settingModalLink = page.getByRole('menuitem', { name: 'Settings' });
+    this.username = username;
   }
 
   async openHomePage(): Promise<HomePage> {

@@ -7,14 +7,14 @@ import { HomePage } from '.';
 export class LoginPage {
   readonly page: Page;
   readonly emailAddressInput: Locator;
-  readonly passwordInput: Locator;
   readonly loginButton: Locator;
+  readonly passwordInput: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.emailAddressInput = page.getByPlaceholder('Email Address');
-    this.passwordInput = page.getByPlaceholder('Password');
     this.loginButton = page.getByRole('button', { name: 'LOGIN' });
+    this.passwordInput = page.getByPlaceholder('Password');
   }
 
   async goto(url: string, expertedUrlParams?: string) {
