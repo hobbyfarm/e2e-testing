@@ -5,19 +5,19 @@ import { Locator, Page } from '@playwright/test';
  */
 export class ProfileSettingModal {
   private readonly page: Page;
+  // TODO: update UI to be able to grab this checkbox
+  // readonly ctrEnabledInput: Locator;
+  private readonly fontSizeInput: Locator;
   private readonly saveButton: Locator;
   private readonly terminalLink: Locator;
   private readonly terminalThemeLink: Locator;
-  private readonly fontSizeInput: Locator;
-  // TODO: update UI to be able to grab this checkbox
-  // readonly ctrEnabledInput: Locator;
 
   constructor(page: Page) {
     this.page = page;
+    this.fontSizeInput = page.getByLabel('Font-Size');
     this.saveButton = page.getByRole('button', { name: 'Save' });
     this.terminalLink = page.getByRole('tab', { name: 'Terminal', exact: true });
     this.terminalThemeLink = page.getByRole('tab', { name: 'Terminal Theme' });
-    this.fontSizeInput = page.getByLabel('Font-Size');
   }
 
   public async updateTerminalSettings(fontSize: number) {

@@ -5,10 +5,10 @@ Feature: User Login on HobbyFarm Admin UI
   So that I can access my profile and manage content
 
 Scenario: Successful user login on HobbyFarm Admin UI
-  Given I am on the Admin UI login page
-  When I enter my valid username and password
-  And click the login button
-  Then I should be redirected to the Admin UI home page
+  Given I am on the login page
+  When I enter a valid username and password
+  And I click on the login button
+  Then I should be redirected to the home page
 
 # Scenario: Unsuccessful user login with incorrect password
 #   Given I am on the login page

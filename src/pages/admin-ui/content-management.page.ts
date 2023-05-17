@@ -6,7 +6,7 @@ import { BasePage, ScenarioPage, CoursePage } from '.';
  */
 export class ContentManagementPage extends BasePage {
   private readonly courseLink: Locator;
-  readonly scenarioLink: Locator;
+  private readonly scenarioLink: Locator;
 
   constructor(page: Page, username: string) {
     super(page, username);

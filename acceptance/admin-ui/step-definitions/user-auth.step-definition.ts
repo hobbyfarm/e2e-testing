@@ -3,6 +3,7 @@ import { binding, given, then, when } from 'cucumber-tsflow';
 import { BaseStepDefinition } from '../../../src/execution-flow/base.step-definition';
 import { SessionContext } from '../../../src/execution-flow/session.context';
 import { BasePage, HomePage, LoginPage } from '../../../src/pages/admin-ui';
+import { AdminUiFlow } from '../../../tests/admin-ui/admin-ui.flow';
 
 @binding([SessionContext])
 export class UserAuthStepDefinition extends BaseStepDefinition {
@@ -10,37 +11,33 @@ export class UserAuthStepDefinition extends BaseStepDefinition {
     super(sessionContext);
   }
 
-  @given(/I am on the Admin UI login page/, 'AdminUI', 10000)
+  @given(/I am on the login page/, 'AdminUI')
   public async givenLoginPageIsOpened(): Promise<void> {
-    const loginPage = new LoginPage(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
-    await loginPage.goto(process.env.HOBBYFARM_ADMIN_UI_URL as string);
+    const loginPage = await AdminUiFlow.openLoginPage(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
     this.sessionContext.current = loginPage;
   }
 
-  @when(/I enter my valid username and password/, 'AdminUI')
+  @when(/I enter a valid username and password/, 'AdminUI')
   public async whenValidUserNameAndPasswordAreEntered(): Promise<void> {
     expect(this.sessionContext.current).toBeInstanceOf(LoginPage);
     await (this.sessionContext.current as LoginPage).fillCredentials(process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
   }
 
-  @when(/click the login button/, 'AdminUI', 10000)
+  @when(/I click on the login button/, 'AdminUI')
   public async whenLoginButtonIsClicked(): Promise<void> {
     expect(this.sessionContext.current).toBeInstanceOf(LoginPage);
     const homePage = await (this.sessionContext.current as LoginPage).submit(process.env.HOBBYFARM_ADMIN_UI_USR as string);
     this.sessionContext.current = homePage;
   }
 
-  @then(/I should be redirected to the Admin UI home page/)
+  @then(/I should be redirected to the home page/, 'AdminUI')
   public thenHomePageIsDisplayed(): void {
     expect(this.sessionContext.current).toBeInstanceOf(HomePage);
   }
 
-  @when(/the user is logged in the Admin UI/, 'AdminUI', 10000)
+  @when(/the user is logged in/, 'AdminUI')
   public async givenUserIsLoggedIn(): Promise<void> {
-    const loginPage = new LoginPage(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
-    await loginPage.goto(process.env.HOBBYFARM_ADMIN_UI_URL as string);
-    await loginPage.fillCredentials(process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
-    const homePage = await loginPage.submit(process.env.HOBBYFARM_ADMIN_UI_USR as string);
+    const homePage = await AdminUiFlow.login(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
     this.sessionContext.current = homePage;
   }
 

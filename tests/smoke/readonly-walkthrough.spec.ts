@@ -4,7 +4,7 @@ import { AuthResource } from '../../src/resources/gargantua';
 import { UiFlow } from '../ui/ui.flow';
 import { AdminUiFlow } from '../admin-ui/admin-ui.flow';
 
-test('Admin Web UI walkthrough readonly smoke test', async ({ page }) => {
+test('Admin Web UI walkthrough @smoke @readonly', async ({ page }) => {
   let homePage = await AdminUiFlow.login(page);
   await homePage.displayAboutModal();
   await homePage.displayLogoutModal();
@@ -24,7 +24,7 @@ test('Admin Web UI walkthrough readonly smoke test', async ({ page }) => {
   await configurationPage.logout();
 });
 
-test('Web UI walkthrough readonly smoke test', async ({ page }) => {
+test('Web UI walkthrough @smoke @readonly', async ({ page }) => {
   const homePage = await UiFlow.login(page);
   await homePage.displayAboutModal();
   await homePage.displayLogoutModal();
@@ -32,7 +32,7 @@ test('Web UI walkthrough readonly smoke test', async ({ page }) => {
   await homePage.logout();
 });
 
-test('Gargantua walkthrough readonly smoke test', async ({ request }) => {
+test('Gargantua walkthrough @smoke @readonly', async ({ request }) => {
   const authResource = new AuthResource(request, process.env.HOBBYFARM_GARGANTUA_URL as string);
   await authResource.login(process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
 });

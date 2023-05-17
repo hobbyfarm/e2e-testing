@@ -10,6 +10,7 @@ on:
 
 jobs:
   publish-npm:
+    name: Publish NPM package
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

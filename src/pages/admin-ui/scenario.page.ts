@@ -5,21 +5,21 @@ import { BasePage } from '.';
  * Scenario page is a sub-page of Content Management page.
  */
 export class ScenarioPage extends BasePage {
-  readonly newScenarioButton: Locator;
-  readonly saveButton: Locator;
-  readonly nameInput: Locator;
   readonly descriptionInput: Locator;
   readonly keepAliveDurationInput: Locator;
+  readonly nameInput: Locator;
+  readonly newScenarioButton: Locator;
   readonly pauseDurationInput: Locator;
+  readonly saveButton: Locator;
 
   constructor(page: Page, username: string) {
     super(page, username);
-    this.newScenarioButton = page.getByRole('button', { name: 'New Scenario' });
-    this.saveButton = page.getByRole('button', { name: 'Save' });
-    this.nameInput = page.getByRole('textbox', { name: 'Name' });
     this.descriptionInput = page.getByRole('textbox', { name: 'Description' });
     this.keepAliveDurationInput = page.getByLabel('Keepalive Duration');
+    this.nameInput = page.getByRole('textbox', { name: 'Name' });
+    this.newScenarioButton = page.getByRole('button', { name: 'New Scenario' });
     this.pauseDurationInput = page.getByLabel('Pause Duration');
+    this.saveButton = page.getByRole('button', { name: 'Save' });
   }
 
   async openNewScenarioForm(): Promise<ScenarioPage> {
