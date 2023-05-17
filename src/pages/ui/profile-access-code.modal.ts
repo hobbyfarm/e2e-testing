@@ -42,8 +42,8 @@ export class ProfileAccessCodeModal {
 
   public async deleteAccessCode(accessCode: string) {
     await this.page.getByText(`${accessCode} added.`).waitFor({ state: 'hidden' }); // makes sure there is no persisting message (and on-going ajax call)
-    await this.page.getByRole('row', { name: `Available actions ${accessCode} No associated event` }).click(); // makes sure to scroll if needed in the list that can be long, see https://playwright.dev/docs/api/class-locator#locator-click
-    await this.page.getByRole('row', { name: `Available actions ${accessCode} No associated event` }).getByRole('button', { name: 'Available actions' }).locator('svg').click();
+    await this.page.getByRole('row', { name: accessCode }).click(); // makes sure to scroll if needed in the list that can be long, see https://playwright.dev/docs/api/class-locator#locator-click
+    await this.page.getByRole('row', { name: accessCode }).getByRole('button', { name: 'Available actions' }).locator('svg').click();
     await this.deleteButton.click();
     await this.closeButton.click();
   }

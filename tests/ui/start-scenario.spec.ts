@@ -1,8 +1,8 @@
 import { test } from '@playwright/test';
 import dayjs from 'dayjs';
-import { AdminUiFlow } from './admin-ui.flow';
+import { UiFlow } from './ui.flow';
 
-test('Schedule an event @notci', async ({ page }) => {
+test('Start a scenario @notci', async ({ page }) => {
   const currentDate = dayjs().startOf('hour');
   const event = {
     name: process.env.HOBBYFARM_EVENT_NAME as string ?? `Fake event ${dayjs().format('YYYY-MM-DDTHH:mm:ss.SSS')}`,
@@ -12,16 +12,11 @@ test('Schedule an event @notci', async ({ page }) => {
     scenario: process.env.HOBBYFARM_EVENT_SCENARIO as string,
     environment: process.env.HOBBYFARM_EVENT_ENVIRONMENT as string
   };
-  const homePage = await AdminUiFlow.login(page);
-  const scheduledEventPage = await homePage.openScheduledEventPage();
-  await scheduledEventPage.create(event);
-  await scheduledEventPage.logout();
-});
 
-test('Delete an event @notci', async ({ page }) => {
-  const eventName = process.env.HOBBYFARM_EVENT_NAME as string ?? `Fake event ${dayjs().format('YYYY-MM-DDTHH:mm:ss.SSS')}`;
-  const homePage = await AdminUiFlow.login(page);
-  const scheduledEventPage = await homePage.openScheduledEventPage();
-  await scheduledEventPage.delete(eventName);
-  await scheduledEventPage.logout();
+  // starts the scenario
+  let homePage = await UiFlow.login(page);
+  homePage = await homePage.addAccessCode(event.accessCode);
+  homePage = await homePage.StartScenario(event.name);
+  homePage = await homePage.deleteAccessCode(event.accessCode);
+  await homePage.logout();
 });
