@@ -22,10 +22,19 @@ export class LoginPage {
     await expect(this.page).toHaveURL(`${url}${expertedUrlParams}`);
   }
 
-  async fillCredentialsAndSubmit(headerTitle: string, emailAddress: string, password: string): Promise<HomePage> {
-    await this.emailAddressInput.fill(emailAddress);
+  async fillCredentials(username: string, password: string): Promise<LoginPage> {
+    await this.emailAddressInput.fill(username);
     await this.passwordInput.fill(password);
+    return this;
+  }
+
+  async submit(headerTitle: string, username: string): Promise<HomePage> {
     await this.loginButton.click();
-    return new HomePage(this.page, headerTitle, emailAddress);
+    return new HomePage(this.page, headerTitle, username);
+  }
+
+  async fillCredentialsAndSubmit(headerTitle: string, username: string, password: string): Promise<HomePage> {
+    await this.fillCredentials(username, password);
+    return this.submit(headerTitle, username);
   }
 }
