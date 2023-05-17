@@ -11,7 +11,7 @@ export class UserAuthStepDefinition extends BaseStepDefinition {
     super(sessionContext);
   }
 
-  @given(/I am on the Admin UI login page/)
+  @given(/I am on the Admin UI login page/, 'AdminUI', 10000)
   public async givenLoginPageIsOpened(): Promise<void> {
     const loginPage = await AdminUiFlow.openLoginPage(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
     this.sessionContext.current = loginPage;
@@ -23,7 +23,7 @@ export class UserAuthStepDefinition extends BaseStepDefinition {
     await (this.sessionContext.current as LoginPage).fillCredentials(process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
   }
 
-  @when(/click the login button/, 'AdminUI')
+  @when(/click the login button/, 'AdminUI', 10000)
   public async whenLoginButtonIsClicked(): Promise<void> {
     expect(this.sessionContext.current).toBeInstanceOf(LoginPage);
     const homePage = await (this.sessionContext.current as LoginPage).submit(process.env.HOBBYFARM_ADMIN_UI_USR as string);
@@ -35,7 +35,7 @@ export class UserAuthStepDefinition extends BaseStepDefinition {
     expect(this.sessionContext.current).toBeInstanceOf(HomePage);
   }
 
-  @when(/the user is logged in the Admin UI/)
+  @when(/the user is logged in the Admin UI/, 'AdminUI', 10000)
   public async givenUserIsLoggedIn(): Promise<void> {
     const loginPage = await AdminUiFlow.openLoginPage(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
     await loginPage.fillCredentials(process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);

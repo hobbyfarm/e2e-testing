@@ -4,7 +4,7 @@ import { HomePage, LoginPage } from '../../src/pages/ui';
 export class UiFlow {
   public static async openLoginPage(page: Page): Promise<LoginPage> {
     const loginPage = new LoginPage(page);
-    const expertedLoginUrlParams = process.env.HOBBYFARM_UI_VERSION as string >= '2.0.2'
+    const expertedLoginUrlParams = process.env.HOBBYFARM_UI_VERSION as string >= '1.0.0'
       ? '/login?returnUrl=%2Fapp%2Fhome'
       : '/login';
     await loginPage.goto(process.env.HOBBYFARM_UI_URL as string, expertedLoginUrlParams);
