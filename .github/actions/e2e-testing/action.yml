@@ -75,11 +75,11 @@ runs:
           ${{ runner.os }}-build-${{ env.cache-name }}-
           ${{ runner.os }}-build-
           ${{ runner.os }}-
-    - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-      name: List the state of node modules
-      continue-on-error: true
-      run: npm list
-      shell: bash
+    # - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+    #   name: List the state of node modules
+    #   continue-on-error: true
+    #   run: npm list
+    #   shell: bash
     - name: Use Playwright cache
       id: playwright-cache
       uses: actions/cache@v3
@@ -93,7 +93,7 @@ runs:
       working-directory: ${{ inputs.working_directory }}
       shell: bash
     - name: Run tests
-      run: npx playwright test ${{ inputs.playwright_options }} --trace on --reporter junit,html
+      run: npx playwright test --trace on --reporter junit,html ${{ inputs.playwright_options }}
       working-directory: ${{ inputs.working_directory }}
       shell: bash
       env:

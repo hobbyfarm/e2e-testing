@@ -18,9 +18,8 @@ jobs:
       - name: Run e2e tests
         uses: ./.github/actions/e2e-testing
         with:
-          # looks like a secret but it is a generic value (and we can't access secrets on a pull-request event, see https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#accessing-secrets)
           adminui_password: ${{ secrets.STAGING_ADMIN_UI_PWD }}
-          adminui_password_hashpwd: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
+          adminui_password_hashpwd: ${{ env.HOBBYFARM_ADMIN_UI_HASHPWD }}
           adminui_url: ${{ secrets.STAGING_ADMIN_UI_URL }}
           adminui_username: ${{ secrets.STAGING_ADMIN_UI_USR }}
           adminui_version: ${{ vars.STAGING_ADMIN_UI_VERSION }}
@@ -31,3 +30,6 @@ jobs:
           playwright_options: "--grep-invert @notci"
           run_acceptance_tests: "true"
           artifact_retention_days: 7
+        env:
+          # looks like a secret but it is a generic value (and we can't access secrets on a pull-request event, see https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#accessing-secrets)
+          HOBBYFARM_ADMIN_UI_HASHPWD: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
