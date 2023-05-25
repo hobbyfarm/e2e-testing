@@ -7,7 +7,7 @@ Automated testing solution to validate [HobbyFarm](https://github.com/hobbyfarm)
 
 ## Current state
 
-This repository has been created in February 2023 and is under active development.
+This repository has been created in February 2023 and the first working version has been completed in May 2023.
 
 The design has been documented in ADRs (Architecture Decision Record): [Solution init (Feb 2023)](docs/adr/adr-init-solution-202302.md).
 
@@ -52,13 +52,21 @@ npx cucumber-js
 
 ## How to contribute
 
+### File organization
+
 You can start editing files in `tests` folders and look at examples in `samples` folder. For UI testing, the PageObject pattern has been followed and code is found in `src/pages`. For REST API testing, code is in `src/resources`.
 
 To go further you can have a look at `.\playwright.config.ts` (Playwright Test configuration) and [Playwright documentation](https://playwright.dev/docs/intro).
 
+### IDE
+
 If you use Visual Studio Code, you can install the extension [Playwright Test for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright) ([repository](https://github.com/microsoft/playwright-vscode)).
 
-## How to check code quality
+### Libraries
+
+* [Day.js](https://day.js.org/) ([code](https://github.com/iamkun/dayjs))
+
+### Code quality
 
 We use [MegaLinter](https://megalinter.io/) ([code](https://github.com/oxsecurity/megalinter)) to check all code from this repository. It will be automatically used in the CI pipeline but you can run it locally:
 
@@ -74,4 +82,4 @@ npx eslint .
 
 ## How to operate
 
-* [pipelines](docs/pipelines.md)
+* [Pipelines](docs/pipelines.md)

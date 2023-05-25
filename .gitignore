@@ -116,3 +116,6 @@ megalinter-reports/
 
 # Cucumber reports
 cucumber-report.html
+
+# JUnit reports
+results.xml

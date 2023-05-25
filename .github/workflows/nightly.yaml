@@ -9,50 +9,25 @@ on:
 
 jobs:
   staging-testing:
-    name: Staging testing
+    name: Staging smoke tests
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-      - name: Debug variables
-        run: |
-          echo $HOBBYFARM_UI_HEADER_TITLE
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+      - name: Run e2e tests
+        uses: ./.github/actions/e2e-testing
         with:
-          node-version: 18
-      - name: Setup NPM cache
-        id: cache-nodemodules
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-      - name: Install NPM packages
-        run: npm install
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-      - name: Run Playwright tests against Staging environment
-        run: npx playwright test --trace on --grep-invert @notci
-      - name: Run acceptance tests against Staging environment
-        run: npx cucumber-js
-      - name: Save pipeline artifacts
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: playwright-report
-          path: |
-            playwright-report/
-            cucumber-report.html
-          retention-days: 30
-    env:
-      HOBBYFARM_ADMIN_UI_URL: ${{ secrets.STAGING_ADMIN_UI_URL }}
-      HOBBYFARM_ADMIN_UI_USR: ${{ secrets.STAGING_ADMIN_UI_USR }}
-      HOBBYFARM_ADMIN_UI_PWD: ${{ secrets.STAGING_ADMIN_UI_PWD }}
-      HOBBYFARM_ADMIN_UI_VERSION: ${{ vars.STAGING_ADMIN_UI_VERSION }}
-      HOBBYFARM_UI_HEADER_TITLE: ${{ vars.STAGING_UI_HEADER_TITLE }}
-      HOBBYFARM_UI_URL: ${{ secrets.STAGING_UI_URL }}
-      HOBBYFARM_UI_VERSION: ${{ vars.STAGING_UI_VERSION }}
-      HOBBYFARM_GARGANTUA_URL: ${{ secrets.STAGING_GARGANTUA_URL }}
+          # looks like a secret but it is a generic value (and we can't access secrets on a pull-request event, see https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#accessing-secrets)
+          adminui_password: ${{ secrets.STAGING_ADMIN_UI_PWD }}
+          adminui_password_hashpwd: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
+          adminui_url: ${{ secrets.STAGING_ADMIN_UI_URL }}
+          adminui_username: ${{ secrets.STAGING_ADMIN_UI_USR }}
+          adminui_version: ${{ vars.STAGING_ADMIN_UI_VERSION }}
+          ui_hometitle: ${{ vars.STAGING_UI_HEADER_TITLE }}
+          ui_url: ${{ secrets.STAGING_UI_URL }}
+          ui_version: ${{ vars.STAGING_UI_VERSION }}
+          gargantua_url: ${{ secrets.STAGING_GARGANTUA_URL }}
+          playwright_options: "--grep-invert @notci"
+          run_acceptance_tests: "true"
+          artifact_retention_days: 7

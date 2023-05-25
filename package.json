@@ -1,6 +1,6 @@
 {
   "name": "hobbyfarm-e2e-testing",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Automated testing solution to validate an instance of [HobbyFarm](https://github.com/hobbyfarm) (API + web app), the Cloud Native e-learning tool",
   "directories": {
     "doc": "docs"

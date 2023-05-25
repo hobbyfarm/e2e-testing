@@ -25,20 +25,6 @@ jobs:
         with:
           # full git history is needed to get a proper list of changed files
           fetch-depth: 0
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Setup NPM cache
-        id: cache-nodemodules
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-      - name: Install NPM packages
-        run: npm install
       - name: Check NPM package version
         if: github.event_name == 'pull_request' && github.event.action != 'closed'
         run: |
@@ -55,34 +41,22 @@ jobs:
         run: scripts/create_kubernetes_cluster.sh
       - name: Install HobbyFarm in the local cluster
         run: scripts/install_hobbyfarm.sh
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-      - name: Run tests against local environment
-        run: npx playwright test --trace on --global-timeout 360000 --project=chromium --workers=1 --grep-invert @notci
-      - name: Run acceptance tests against local environment
-        run: npx cucumber-js
-      - name: Save pipeline artifacts
-        uses: actions/upload-artifact@v3
-        if: always()
+      - name: Run e2e tests
+        uses: ./.github/actions/e2e-testing
         with:
-          name: test-reports
-          path: |
-            playwright-report/
-            cucumber-report.html
-          retention-days: 30
-      - name: Clean-up containers
-        run: scripts/delete_kubernetes_cluster.sh
-    env:
-      HOBBYFARM_ADMIN_UI_URL: https://admin.hf.local
-      HOBBYFARM_ADMIN_UI_USR: admin
-      HOBBYFARM_ADMIN_UI_PWD: admin
-      HOBBYFARM_ADMIN_UI_VERSION: 2.0.3
-      HOBBYFARM_UI_HEADER_TITLE: Rancher HobbyFarm
-      HOBBYFARM_UI_URL: https://learn.hf.local
-      HOBBYFARM_UI_VERSION: 2.0.2
-      HOBBYFARM_GARGANTUA_URL: https://api.hf.local
-      # looks like a secret but it is a generic value (and we can't access secrets on a pull-request event, see https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#accessing-secrets)
-      HOBBYFARM_ADMIN_UI_HASHPWD: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
+          # looks like a secret but it is a generic value (and we can't access secrets on a pull-request event, see https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#accessing-secrets)
+          adminui_password: admin
+          adminui_password_hashpwd: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
+          adminui_url: https://admin.hf.local
+          adminui_username: admin
+          adminui_version: 2.0.3
+          ui_hometitle: Rancher HobbyFarm
+          ui_url: https://learn.hf.local
+          ui_version: 2.0.2
+          gargantua_url: https://api.hf.local
+          playwright_options: "--global-timeout 360000 --project=chromium --workers=1 --grep-invert @notci"
+          run_acceptance_tests: "true"
+          artifact_retention_days: 7
   lint:
     name: Lint
     runs-on: ubuntu-latest
