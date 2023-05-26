@@ -97,7 +97,7 @@ runs:
       working-directory: ${{ inputs.working_directory }}
       shell: bash
       env:
-        HOBBYFARM_ADMIN_UI_HASHPWD: ${{ inputs.adminui_password_hashpwd }}
+        HOBBYFARM_ADMIN_UI_HASHPWD: "${{ inputs.adminui_password_hashpwd }}"
         HOBBYFARM_ADMIN_UI_PWD: ${{ inputs.adminui_password }}
         HOBBYFARM_ADMIN_UI_URL: ${{ inputs.adminui_url }}
         HOBBYFARM_ADMIN_UI_USR: ${{ inputs.adminui_username }}
@@ -114,7 +114,7 @@ runs:
       run: npx cucumber-js
       shell: bash
       env:
-        HOBBYFARM_ADMIN_UI_HASHPWD: ${{ inputs.adminui_password_hashpwd }}
+        HOBBYFARM_ADMIN_UI_HASHPWD: "${{ inputs.adminui_password_hashpwd }}"
         HOBBYFARM_ADMIN_UI_PWD: ${{ inputs.adminui_password }}
         HOBBYFARM_ADMIN_UI_URL: ${{ inputs.adminui_url }}
         HOBBYFARM_ADMIN_UI_USR: ${{ inputs.adminui_username }}
