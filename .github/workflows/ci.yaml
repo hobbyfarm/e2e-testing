@@ -15,14 +15,17 @@ concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
+# warn: limitation on write for PR from forked repo
+permissions:
+  contents: read
+  checks: write
+  id-token: write
+  pull-requests: write
+
 jobs:
   build-test:
     name: Build & test
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      checks: write
-      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -60,17 +63,12 @@ jobs:
           playwright_options: "--global-timeout 360000 --project=chromium --workers=1 --grep-invert @notci"
           run_acceptance_tests: "true"
           artifact_retention_days: 7
-        env:
-          # looks like a secret but it is a generic value (and we can't access secrets on a pull-request event, see https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#accessing-secrets)
-          HOBBYFARM_ADMIN_UI_HASHPWD: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
+    env:
+      # looks like a secret but it is a generic value (and we can't access secrets on a pull-request event, see https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#accessing-secrets)
+      HOBBYFARM_ADMIN_UI_HASHPWD: "$2a$10$33fQs0G.lHQdDAsdoECgA.8iYvNtyJ2XC2AmvR5x6ZkzxSuKXyfFm"
   lint:
     name: Lint
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      checks: write
-      id-token: write
-      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
