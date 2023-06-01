@@ -75,7 +75,7 @@ export class ScheduledEventModal {
   }
 
   private selectDay(inputDate: dayjs.Dayjs): Locator {
-    return this.page.getByRole('gridcell', { name: inputDate.format('MMMM D, YYYY'), exact: true });
+    return this.page.getByRole('gridcell', { name: inputDate.format('MMM D, YYYY'), exact: true });
   }
 
   private selectSlot(inputDate: dayjs.Dayjs): Locator {
