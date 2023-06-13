@@ -13,6 +13,8 @@ export class BaseStepDefinition {
     const browser = await chromium.launch();
     this.sessionContext.browser = browser;
     const context = await browser.newContext({ ignoreHTTPSErrors: true });
+    context.setDefaultTimeout(300000); // 5 min
+    context.setDefaultNavigationTimeout(300000); // 5 min
     this.sessionContext.browserContext = context;
     this.sessionContext.page = await context.newPage();
   }
