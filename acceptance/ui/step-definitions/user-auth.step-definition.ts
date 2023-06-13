@@ -11,49 +11,49 @@ export class UserAuthStepDefinition extends BaseStepDefinition {
     super(sessionContext);
   }
 
-  @given(/I am on the login page/, 'UI')
+  @given(/I am on the login page/, { tag: '@UI' })
   public async givenLoginPageIsOpened(): Promise<void> {
     const loginPage = await UiFlow.openLoginPage(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
     this.sessionContext.current = loginPage;
   }
 
-  @when(/I enter a valid username and password/, 'UI')
+  @when(/I enter a valid username and password/, { tag: '@UI' })
   public async whenValidUserNameAndPasswordAreEntered(): Promise<void> {
     expect(this.sessionContext.current).toBeInstanceOf(LoginPage);
     await (this.sessionContext.current as LoginPage).fillCredentials(process.env.HOBBYFARM_ADMIN_UI_USR as string, process.env.HOBBYFARM_ADMIN_UI_PWD as string);
   }
 
-  @when(/I click on the login button/, 'UI')
+  @when(/I click on the login button/, { tag: '@UI' })
   public async whenLoginButtonIsClicked(): Promise<void> {
     expect(this.sessionContext.current).toBeInstanceOf(LoginPage);
     const homePage = await (this.sessionContext.current as LoginPage).submit(process.env.HOBBYFARM_UI_HEADER_TITLE as string, process.env.HOBBYFARM_ADMIN_UI_USR as string);
     this.sessionContext.current = homePage;
   }
 
-  @then(/I should be redirected to the home page/, 'UI')
+  @then(/I should be redirected to the home page/, '@UI')
   public thenHomePageIsDisplayed(): void {
     expect(this.sessionContext.current).toBeInstanceOf(HomePage);
   }
 
-  @when(/I am logged in/, 'UI')
+  @given(/I am logged in/, { tag: '@UI' })
   public async givenUserIsLoggedIn(): Promise<void> {
     const homePage = await UiFlow.login(this.sessionContext.page ?? (() => { throw new Error('page is null'); })());
     this.sessionContext.current = homePage;
   }
 
-  @when(/I click on the logout button/, 'UI')
+  @when(/I click on the logout button/, { tag: '@UI' })
   public async givenLogoutButtonIsClicked(): Promise<void> {
     expect(this.sessionContext.current).toBeInstanceOf(BasePage);
     const loginPage = await (this.sessionContext.current as HomePage).logout();
     this.sessionContext.current = loginPage;
   }
 
-  @then(/I am logged out from the application/, 'UI')
+  @then(/I am logged out from the application/, '@UI')
   public async thenUserIsLoggedOut(): Promise<void> {
     expect(this.sessionContext.current).toBeInstanceOf(LoginPage);
   }
 
-  @then(/I am redirected to the login page/, 'UI')
+  @then(/I am redirected to the login page/, '@UI')
   public async thenUserIsRedirectedToLoginPage(): Promise<void> {
     expect(this.sessionContext.current).toBeInstanceOf(LoginPage);
   }
